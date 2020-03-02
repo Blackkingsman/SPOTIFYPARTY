@@ -1,16 +1,22 @@
 
 <template>
-  <v-container>
+  <div id="app">
     <navbar />
-  </v-container>
+    <profile />
+    <sessions />
+  </div>
 </template>
 
 <script>
 import Navbar from '../components/Navbar.vue'
+import Profile from '../components/Profile.vue'
+import Sessions from '../components/Sessions.vue'
 
 export default {
   components: {
-    Navbar
+    Navbar,
+    Profile,
+    Sessions
   },
   methods: {
     handleClick () {
@@ -20,5 +26,12 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
+  #app {
+    font-family: Avenir, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-align: center;
+    color: #2c3e50;
+  }
 </style>

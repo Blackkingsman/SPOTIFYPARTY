@@ -20,5 +20,6 @@ COPY docker/rootfs /
 RUN dos2unix /entrypoint && \
     apt-get --purge remove -y dos2unix && \
     rm -rf /var/lib/apt/lists/*
+RUN chmod +x /entrypoint
 ENV HOST 0.0.0.0
 ENTRYPOINT ["/entrypoint"]
