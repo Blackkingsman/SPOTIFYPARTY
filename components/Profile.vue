@@ -1,7 +1,7 @@
 <template>
   <div class="profile">
     <h1>{{ msg }}</h1>
-    <img src="../assets/user.png"/>
+    <img src="../assets/user.png">
     <p>
       Name: John Doe<br>
       Email ID: john.doe@gmail.com<br>
