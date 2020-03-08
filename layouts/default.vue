@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="app">
     <nuxt />
   </div>
 </template>
@@ -51,5 +51,13 @@ html {
 .button--grey:hover {
   color: #fff;
   background-color: #35495e;
+}
+
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
 }
 </style>
