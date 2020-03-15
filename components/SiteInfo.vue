@@ -29,7 +29,7 @@
         you're queueing songs!
       </h3>
       <h5 class="charcoal2">
-        For more detailed information about using Spotusfy<span class="registered"><sup>&reg;</sup></span> please refer to our <a v-bind:href="'/home/faqs'">FAQs</a>
+        For more detailed information about using Spotusfy<span class="registered"><sup>&reg;</sup></span> please refer to our <a v-bind:href="'/faqs'">FAQs</a>
       </h5>
     </div>
   </div>
