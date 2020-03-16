@@ -27,7 +27,7 @@
             </b-button>
             <b-button v-if="item != items[0]" variant="success">
               Make Leader
-            </b-button><b-button v-if="item != items[0]" variant="danger">
+            </b-button><b-button v-if="item != items[0]" variant="danger" @click="removeElement(index)">
               Remove
             </b-button>
           </tr>
@@ -39,6 +39,11 @@
 
 <script>
 export default {
+  methods: {
+    removeElement (index) {
+      this.items.splice(index, 1)
+    }
+  },
   data () {
     return {
       isHidden: false,

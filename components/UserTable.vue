@@ -23,7 +23,7 @@
               {{ item[column] }}
             </td>
 
-            <b-button variant="danger">
+            <b-button variant="danger" @click="removeElement(key)">
               - Remove Song
             </b-button>
           </tr>
@@ -35,6 +35,11 @@
 
 <script>
 export default {
+  methods: {
+    removeElement (index) {
+      this.items.splice(index, 1)
+    }
+  },
   data () {
     return {
       isHidden: false,
