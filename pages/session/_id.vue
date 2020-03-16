@@ -1,18 +1,30 @@
 <template>
   <div id="app">
-    <navbar />
-    <spotify-search />
+    <Navbar />
+    <br>
+    <Sessionpage />
+    <br>
+    <Tablepage />
+    <br>
+    <Usertable />
   </div>
 </template>
 
 <script>
+import Tablepage from '../../components/Tablepage'
+import Usertable from '../../components/UserTable'
+import Sessionpage from '../../components/Session'
 import Navbar from '../../components/Navbar'
-// import SpotifySearch from '../../components/SpotifySearch'
-
 export default {
+
+  name: 'App',
   components: {
-    Navbar
-    // SpotifySearch
+    Navbar,
+    Tablepage,
+    Usertable,
+    Sessionpage
   }
+
 }
+
 </script>
