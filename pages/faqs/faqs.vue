@@ -6,8 +6,8 @@
 </template>
 
 <script>
-import Navbar from '../components/Navbar'
-import FAQs from '../components/FAQs'
+import Navbar from '../../components/Navbar'
+import FAQs from '../../components/FAQs'
 
 export default {
   components: {
