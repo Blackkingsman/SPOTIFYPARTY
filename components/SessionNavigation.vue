@@ -17,10 +17,10 @@ export default {
 </script>
 
 <style scoped lang="scss">
-#session-navigation {
-  display: inline-flex;
-  div {
-    margin: 0 3% 0 3%;
+  #session-navigation {
+    display: inline-flex;
+    div {
+      margin: 0 3% 0 3%;
+    }
   }
-}
 </style>

@@ -1,22 +1,35 @@
 <template>
   <div class="profile">
     <h1>{{ msg }}</h1>
-    <img src="../assets/user.png">
+    <img src="../assets/user.png" alt="">
     <p>
-      Name: John Doe<br>
-      Email ID: john.doe@gmail.com<br>
-      Age: 25<br>
+      Name: {{ name }}<br>
+      Email ID: {{ email }}<br>
+      Age: {{ age }}<br>
     </p>
   </div>
 </template>
 
 <script>
+
 export default {
   name: 'Profile',
   props: {
     msg: {
       type: String,
       default: 'Welcome'
+    },
+    name: {
+      type: String,
+      default: 'John Doe'
+    },
+    email: {
+      type: String,
+      default: 'john.doe@gmail.com'
+    },
+    age: {
+      type: Number,
+      default: 18
     }
   }
 }
