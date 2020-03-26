@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <div class="site-info">
+    <div class="info-block">
       <h1 class="bold">{{ msg }}<span class="registered"><sup>&reg;</sup></span></h1>
       <h4 class="charcoal">
         Spotusfy is a simple app you can use to share music control of an existing Spotify account with your friends!
@@ -37,11 +37,11 @@
 
 <script>
 export default {
-  name: 'SiteInfo',
+  name: 'InfoBlock',
   props: {
     msg: {
       type: String,
-      default: 'Welcome to Spotusfy'
+      default: 'spotusfy.com'
     }
   }
 }

@@ -1,21 +1,18 @@
 <template>
   <div id="app">
     <navbar />
-    <site-info />
-    <session-navigation />
+    <info-block />
   </div>
 </template>
 
 <script>
 import Navbar from '../components/Navbar'
-import SiteInfo from '../components/SiteInfo'
-import SessionNavigation from '../components/SessionNavigation'
+import InfoBlock from '../components/InfoBlock'
 
 export default {
   components: {
     Navbar,
-    SiteInfo,
-    SessionNavigation
+    InfoBlock
   }
 }
 </script>
