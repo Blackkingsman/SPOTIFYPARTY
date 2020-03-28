@@ -7,8 +7,8 @@
       <div role="tablist" class="info-block">
         <b-card no-body class="mb-1">
           <b-card-header header-tag="header" class="p-1" role="tab">
-            <b-button v-b-toggle.accordion-1 href="#" variant="light" style="float: right">
-              X
+            <b-button v-b-toggle.accordion-1 href="#" variant="light">
+              <span class="when-opened">X</span> <span class="when-closed">Site Info</span>
             </b-button>
           </b-card-header>
           <b-collapse id="accordion-1" visible accordion="my-accordion" role="tabpanel">
@@ -16,19 +16,19 @@
             <h6 class="lil-bold">
               Start a New Session:
             </h6>
-            <h6 class="lil-just">
+            <h6 class="left-just">
               Click the 'Create Session' button and log in with your existing Spotify account information.
             </h6>
             <h6 class="lil-bold">
               Invite Friends to Join:
             </h6>
-            <h6 class="lil-just">
+            <h6 class="left-just">
               Once you are in a session you can invite friends to join by their usernames via the 'Invite People' tab.
             </h6>
             <h6 class="lil-bold">
               Join an Existing Session:
             </h6>
-            <h6 class="lil-just">
+            <h6 class="left-just">
               Have a friend tell you the name they gave their existing session and join it without needing an invite using the 'Join Session' button.
             </h6>
           </b-collapse>
@@ -58,6 +58,19 @@ export default {
 </script>
 
 <style scoped>
+  .collapsed > .when-opened,
+  :not(.collapsed) > .when-closed {
+    display: none;
+  }
+  .when-closed {
+    font-size: 18px;
+  }
+  .card-header .btn[aria-expanded=true] {
+    float: right;
+  }
+  .card-header .btn[aria-expanded=false] {
+    margin: 0px;
+  }
   .container {
     overflow: hidden;
   }
@@ -90,7 +103,7 @@ export default {
   h5 {
     font-size: 18.5px;
     text-align: left;
-    margin-top: 7px;
+    margin-top: 9px;
     margin-left: 15px;
     margin-right: 15px;
     margin-bottom: 35px;
@@ -99,7 +112,7 @@ export default {
     font-size: 18px;
     font-weight: 840px;
   }
-  .lil-just {
+  .left-just {
     font-size: 18px;
     text-align: left;
     margin-left: 80px;
