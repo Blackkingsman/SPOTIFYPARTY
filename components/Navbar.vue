@@ -25,13 +25,7 @@
 
       <!-- Right aligned nav items -->
       <b-navbar-nav class="ml-auto">
-        <b-nav-form>
-          <b-form-input size="md" class="mr-sm-2" placeholder="Search" />
-          <b-button size="md" class="my-2 my-sm-0" type="submit" @click="handleClick()">
-            Search
-          </b-button>
-        </b-nav-form>
-        <b-nav-item-dropdown right>
+        <b-nav-item-dropdown right v-if="onHomePage || onSessionPage">
           <!-- Using 'button-content' slot -->
           <template v-slot:button-content>
             <em>User</em>
@@ -40,8 +34,8 @@
             Profile
           </b-dropdown-item>
           <profile-info />
-          <b-dropdown-item href="#" @click.prevent="$emit('login')">
-            Sign In
+          <b-dropdown-item href="/" >
+            Sign Out
           </b-dropdown-item>
         </b-nav-item-dropdown>
       </b-navbar-nav>
