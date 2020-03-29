@@ -5,9 +5,16 @@
         spotusfy.com
       </h1>
       <div role="tablist" class="info-block">
-        <b-card no-body class="mb-1">
+        <b-card id="card" no-body class="mb-1">
           <b-card-header header-tag="header" class="p-1" role="tab">
-            <b-button id="toggle-button" v-b-toggle.accordion-1 href="#" variant="light">
+            <b-button
+              id="toggle-button"
+              v-b-toggle.accordion-1
+              href="#"
+              variant="light"
+              onclick="this.blur()"
+              @click="isActive= !isActive"
+            >
               <span class="when-opened">X</span> <span class="when-closed">Site Info</span>
             </b-button>
           </b-card-header>
@@ -19,13 +26,7 @@
               Start a New Session:
             </h6>
             <h6 class="left-justify">
-              Click the 'Create Session' button and log in with your existing Spotify account information.
-            </h6>
-            <h6 class="lil-bold">
-              Invite Friends to Join:
-            </h6>
-            <h6 class="left-justify">
-              Once you are in a session you can invite friends to join by their usernames via the 'Invite People' tab.
+              Click the 'Create Session' tab and log in with your existing Spotify account information.
             </h6>
             <h6 class="lil-bold">
               Join an Existing Session:
@@ -33,10 +34,16 @@
             <h6 class="left-justify">
               Have a friend tell you the name they gave their existing session and join it without needing an invite using the 'Join Session' button.
             </h6>
+            <h6 class="lil-bold">
+              Invite Friends to Join:
+            </h6>
+            <h6 class="left-justify">
+              Once you are in a session you can invite friends to join by their usernames via the 'Invite People' tab.
+            </h6>
           </b-collapse>
         </b-card>
       </div>
-      <b-button variant="primary" class="connect-button">
+      <b-button v-if="isActive" variant="primary" class="connect-button">
         Connect with Spotify
       </b-button>
     </div>
@@ -45,13 +52,25 @@
 
 <script>
 export default {
-  name: 'InfoBlock'
+  name: 'InfoBlock',
+  data () {
+    return {
+      isActive: false
+    }
+  }
 }
 </script>
 
 <style scoped>
   @import url('https://fonts.googleapis.com/css?family=Lato:700&display=swap');
 
+  .title {
+    font-family: 'Lato', sans-serif;
+    margin-top: 380px;
+    margin-bottom:45px;
+    font-weight: 840;
+    font-size: 65px;
+  }
   .collapsed > .when-opened,
   :not(.collapsed) > .when-closed {
     display: none;
@@ -76,31 +95,20 @@ export default {
   .card {
     background-color: white;
     border-color: transparent;
-  }
-  .title {
-    font-family: 'Lato', sans-serif;
-    margin-top: 280px;
-    margin-bottom:140px;
-    font-weight: 840;
-    font-size: 65px;
+    position: relative;
   }
   .site-info {
     margin-left: 110px;
     margin-right: 110px;
     margin-top: 40px;
   }
-  .connect-button {
-    margin: 20px;
-    font-size: 21px;
-    /* width: 200px; */
-    /* position: absolute; */
-  }
   .info-button {
     margin: 15px;
   }
   #accordion-1 {
     margin: 15px;
-    /* position: relative; */
+    /* overflow-y: scroll; */
+    position: relative;
   }
   .info-block {
     margin-top: 30px;
@@ -128,5 +136,19 @@ export default {
     margin-right: 80px;
     margin-top: 15px;
     margin-bottom: 25px;
+  }
+  .connect-button {
+    position: absolute;
+    z-index: -1;
+    margin-top: 15px;
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
+    font-size: 21px;
+    /* width: 200px; */
+  }
+  .m-2 {
+    padding-top: 100px;
   }
 </style>
