@@ -1,5 +1,5 @@
 <template>
-  <b-button id="spotify-login" pill variant="success" @click="redirectToSpotify">
+  <b-button id="spotifyLogin" pill variant="success" @click="redirectToSpotify">
     Connect with Spotify
   </b-button>
 </template>

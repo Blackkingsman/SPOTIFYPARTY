@@ -14,7 +14,7 @@
         <b-nav-item v-if="onHomePage" v-b-modal.join-modal>
           Join Session
         </b-nav-item>
-        <b-nav-item v-if="onHomePage" v-b-button.spotify-login>
+        <b-nav-item v-if="onIndexPage" @click="spotifyLogin">
           Connect to Spotify
         </b-nav-item>
         <join-modal />
@@ -67,6 +67,9 @@ export default {
   },
 
   computed: {
+    onIndexPage () {
+      return this.checkPath('')
+    },
     onHomePage () {
       return this.checkPath('home')
     },
@@ -82,6 +85,11 @@ export default {
 
     checkPath (path) {
       return this.$route.path.substr(1).split('/')[0] === path
+    },
+
+    spotifyLogin (e) {
+      e.preventDefault()
+      document.getElementById('spotifyLogin').click()
     },
 
     createID () {
@@ -111,9 +119,7 @@ export default {
             this.$router.push(`/session/${result}`)
           }
         })
-      } catch (e) {
-        console.log(e)
-      }
+      } catch (e) {}
     }
   }
 }
