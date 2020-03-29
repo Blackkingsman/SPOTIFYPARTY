@@ -15,7 +15,7 @@
               onclick="this.blur()"
               @click="isActive= !isActive"
             >
-              <span class="when-opened">X</span> <span class="when-closed">Site Info</span>
+              <span class="when-opened">x</span> <span class="when-closed">Site Info</span>
             </b-button>
           </b-card-header>
           <b-collapse id="accordion-1" visible accordion="my-accordion" role="tabpanel">
@@ -46,6 +46,7 @@
       <b-button v-if="isActive" variant="primary" class="connect-button">
         Connect with Spotify
       </b-button>
+      <!-- Button to cover the momentarily centered [x] when page refreshes: -->
       <b-button v-if="!isActive" variant="basic" class="white-cover">
         Cover
       </b-button>
@@ -80,10 +81,12 @@ export default {
   }
   .when-opened {
     margin-right: 40px;
+    font-size: 20px;
     font-weight: 500;
   }
   .when-closed {
     font-size: 20px;
+    color: black;
   }
   #toggle-button {
     background-color: transparent;
