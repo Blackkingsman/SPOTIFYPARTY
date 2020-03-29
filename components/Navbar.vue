@@ -1,9 +1,11 @@
 <template>
   <b-navbar toggleable="lg" type="dark" variant="dark">
-    <b-navbar-brand href="/">
+    <b-navbar-brand href="/" v-if="onHomePage">
       Home
     </b-navbar-brand>
-
+    <b-navbar-brand href="/home" v-else-if="onSessionPage">
+      Home
+    </b-navbar-brand>
     <b-navbar-toggle target="nav-collapse" />
 
     <b-collapse id="nav-collapse" is-nav>
@@ -24,7 +26,7 @@
         <b-nav-item v-if="onIndexPage" right @click="spotifyLogin">
           Connect to Spotify
         </b-nav-item>
-        <b-nav-item v-else right href='/'>
+        <b-nav-item v-else right href="/">
           Sign Out
         </b-nav-item>
       </b-navbar-nav>
@@ -90,8 +92,10 @@ export default {
 
     async makeID () {
       let result = this.createID()
-      const ref = fireDb.collection('sessions').doc()
+      console.log(result)
+      const ref = fireDb.collection('sessions').doc(result)
       const document = { result }
+      console.log(document)
       try {
         await ref.get().then((doc) => {
           if (doc.exists) {
