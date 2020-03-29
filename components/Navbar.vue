@@ -14,37 +14,26 @@
         <b-nav-item v-if="onHomePage" v-b-modal.join-modal>
           Join Session
         </b-nav-item>
-        <b-nav-item v-if="onIndexPage" @click="spotifyLogin">
-          Connect to Spotify
-        </b-nav-item>
+
         <join-modal />
         <b-nav-item v-if="onSessionPage" href="#">
           Invite People
         </b-nav-item>
-      </b-navbar-nav>
-
-      <!-- Right aligned nav items -->
+      </b-navbar-nav>Right aligned nav items -->
       <b-navbar-nav class="ml-auto">
-        <b-nav-item-dropdown right v-if="onHomePage || onSessionPage">
-          <!-- Using 'button-content' slot -->
-          <template v-slot:button-content>
-            <em>User</em>
-          </template>
-          <b-dropdown-item v-b-modal.profile-modal>
-            Profile
-          </b-dropdown-item>
-          <profile-info />
-          <b-dropdown-item href="/" >
-            Sign Out
-          </b-dropdown-item>
-        </b-nav-item-dropdown>
+        <b-nav-item v-if="onIndexPage" right @click="spotifyLogin">
+          Connect to Spotify
+        </b-nav-item>
+        <b-nav-item v-else right href='/'>
+          Sign Out
+        </b-nav-item>
       </b-navbar-nav>
     </b-collapse>
   </b-navbar>
 </template>
 
 <script>
-import ProfileInfo from './ProfileInfo'
+
 import JoinModal from './SessionButtons/Join'
 import { fireDb } from '~/plugins/firebase.js'
 
@@ -52,7 +41,6 @@ export default {
   name: 'EditButton',
 
   components: {
-    ProfileInfo,
     JoinModal
   },
 
