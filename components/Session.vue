@@ -11,6 +11,7 @@
       <table class="table">
         <thead>
           <tr>
+            <th>No. </th>
             <th v-for="(column, index) in columns" :key="index">
               {{ column }}
             </th>
@@ -19,17 +20,19 @@
         </thead>
         <tbody>
           <tr v-for="(item, index) in items" :key="index">
+           <td>
+             {{ index +1 }}</td>
             <td v-for="(column, indexColumn) in columns" :key="indexColumn">
               {{ item[column] }}
             </td>
-            <b-button v-if="item == items[0]" variant="danger">
-              Leave
-            </b-button>
-            <b-button v-if="item != items[0]" variant="success">
-              Make Leader
-            </b-button><b-button v-if="item != items[0]" variant="danger" @click="removeElement(index)">
-              Remove
-            </b-button>
+            <td>
+              <b-button v-if="item == items[0]" variant="danger">
+                Leave
+              </b-button>
+              <b-button v-if="item != items[0]" variant="danger" @click="removeElement(index)">
+                Remove
+              </b-button>
+            </td>
           </tr>
         </tbody>
       </table>
@@ -39,11 +42,6 @@
 
 <script>
 export default {
-  methods: {
-    removeElement (index) {
-      this.items.splice(index, 1)
-    }
-  },
   data () {
     return {
       isHidden: false,
@@ -54,39 +52,40 @@ export default {
       ],
       items: [
         {
-          'No.': '1',
           Username: 'tphillips24',
           Name: 'Terry ',
           Role: 'Party Leader'
         },
         {
-          'No.': '2',
           Username: 'keith213',
           Name: 'Keith',
           Role: 'Memeber'
         },
         {
-          'No.': '3',
           Username: 'upasnadah25',
           Name: 'Upasna',
           Role: 'Memeber'
         },
         {
-          'No.': '4',
           Username: 'trung231',
           Name: 'Trung',
           Role: 'Memeber'
         },
         {
-          'No.': '5',
           Username: 'griffin256',
           Name: 'Griffin',
           Role: 'Memeber'
         }
 
       ],
-      columns: ['No.', 'Username', 'Name', 'Role'],
-      slcQuality: null
+      columns: ['Username', 'Name', 'Role'],
+      slcQuality: null,
+      user: 'tphillips24'
+    }
+  },
+  methods: {
+    removeElement (index) {
+      this.items.splice(index, 1)
     }
   }
 

@@ -14,12 +14,22 @@
             <th v-for="(column, index) in columns" :key="index">
               {{ column }}
             </th>
+            <th>Controls</th>
           </tr>
         </thead>
         <tbody>
           <tr v-for="(item, index) in items" :key="index">
             <td v-for="(column, indexColumn) in columns" :key="indexColumn">
-              {{ item[column] }}
+              <h5 v-if="column==='No.'"><small>{{ index +1 }}</small></h5>
+              <h5 v-if="column!='Album Cover'">
+                <small>{{ item[column] }}</small>
+              </h5>
+              <img v-if="column=== 'Album Cover'" :src="item['Album Cover'].valueOf()" style="width:100px;height:100px;">
+            </td>
+            <td>
+              <b-button v-if="item['User'].valueOf() === user" variant="danger" @click="removeElement (index)">
+                Remove
+              </b-button>
             </td>
           </tr>
         </tbody>
@@ -40,50 +50,63 @@ export default {
       ],
       items: [
         {
-          Queue: '1',
+          User: 'tphillips24',
+          Album: '!',
           Song: 'Lil Wayne',
           Artist: 'Trippie Redd',
-          'Queued By': 'Terry '
+          'Album Cover': 'https://upload.wikimedia.org/wikipedia/en/c/cd/Trippie_Redd_-_%21.png'
         },
         {
-          Queue: '2',
+          User: 'upasnadah25',
+          Album: 'Highest in The Room',
           Song: 'Highest in The Room',
           Artist: 'Travis Scott',
-          'Queued By': 'Upasna  '
+          'Album Cover': 'https://i2.wp.com/respect-mag.com/wp-content/uploads/2019/09/image002-5.jpg?resize=3000%2C3000&ssl=1'
         },
         {
-          Queue: '3',
+          User: 'logan234',
+          Album: 'Dark Knight Dummo',
           Song: 'Dark Knight Dummo',
           Artist: 'Trippie Redd',
-          'Queued By': 'Logan '
+          'Album Cover': 'https://m.media-amazon.com/images/I/91CtpJfsajL._SS500_.jpg'
         },
         {
-          Queue: '4',
+          User: 'upasnadah25',
+          Album: 'Hollywood\'s Bleeding',
           Song: 'Enemies',
           Artist: 'Post Malone',
-          'Queued By': 'Upasna  '
+          'Album Cover': 'https://lh3.googleusercontent.com/proxy/lGRCGgaKbyOLCEJkcwIqfS-BkVlHzCp2bCS-jo0i1MJdysbXFMHEyrrdJn6Q_vneCja6tFEUrlechaYX5Jv58xz90FfCsv8h7B_CC7Ghbbj5EYe5WGW8t0jSuI2vb0dHpBkezQQGYd0zHV7IaF4'
         },
         {
-          Queue: '5',
+          User: 'keith213',
+          Album: 'Tha Carter IV',
           Song: 'How To Love',
           Artist: 'Lil Wayne',
-          'Queued By': 'Keith '
+          'Album Cover': 'https://upload.wikimedia.org/wikipedia/en/d/d1/Lil_Wayne_-_Tha_Carter_IV.jpg'
         },
         {
-          Queue: '6',
+          User: 'griffin256',
+          Album: 'Trap Lord',
           Song: 'Work',
           Artist: 'A$ap Ferg',
-          'Queued By': 'Griffin '
+          'Album Cover': 'https://upload.wikimedia.org/wikipedia/en/6/6c/ASAP_Ferg_Trap_Lord.jpg'
         }, {
-          Queue: '7',
-          Song: 'Dont',
+          User: 'tphillips24',
+          Album: 'TRAPSOUL',
+          Song: 'Don\'t',
           Artist: 'Bryson Tiller',
-          'Queued By': 'Terry'
+          'Album Cover': 'https://upload.wikimedia.org/wikipedia/en/4/4e/Trapsoulalbum.jpeg'
         }
 
       ],
-      columns: ['Queue', 'Song', 'Artist', 'Queued By'],
-      slcQuality: null
+      columns: ['No.', 'User', 'Album Cover', 'Album', 'Song', 'Artist'],
+      slcQuality: null,
+      user: 'tphillips24'
+    }
+  },
+  methods: {
+    removeElement (index) {
+      this.items.splice(index, 1)
     }
   }
 
