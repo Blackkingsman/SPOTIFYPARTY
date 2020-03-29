@@ -22,7 +22,6 @@
             placeholder="Session ID"
             required
           />
-          <!--          <b-form-input v-modal="sessionTarget" placeholder="Please enter a session code" />-->
         </b-form-group>
       </form>
     </b-modal>

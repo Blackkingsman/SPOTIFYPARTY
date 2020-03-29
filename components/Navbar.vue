@@ -1,6 +1,6 @@
 <template>
   <b-navbar toggleable="lg" type="dark" variant="dark">
-    <b-navbar-brand href="/home">
+    <b-navbar-brand href="/">
       Home
     </b-navbar-brand>
 
@@ -8,14 +8,17 @@
 
     <b-collapse id="nav-collapse" is-nav>
       <b-navbar-nav>
-        <b-nav-item @click="makeID">
+        <b-nav-item v-if="onHomePage" @click="makeID">
           Create Session
         </b-nav-item>
-        <b-nav-item v-b-modal.join-modal>
+        <b-nav-item v-if="onHomePage" v-b-modal.join-modal>
           Join Session
         </b-nav-item>
+        <b-nav-item v-if="onHomePage" v-b-button.spotify-login>
+          Connect to Spotify
+        </b-nav-item>
         <join-modal />
-        <b-nav-item href="#">
+        <b-nav-item v-if="onSessionPage" href="#">
           Invite People
         </b-nav-item>
       </b-navbar-nav>
@@ -63,9 +66,22 @@ export default {
     return {}
   },
 
+  computed: {
+    onHomePage () {
+      return this.checkPath('home')
+    },
+    onSessionPage () {
+      return this.checkPath('session')
+    }
+  },
+
   methods: {
     handleClick () {
       alert('hey something is working now')
+    },
+
+    checkPath (path) {
+      return this.$route.path.substr(1).split('/')[0] === path
     },
 
     createID () {
