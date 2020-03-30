@@ -1,9 +1,12 @@
 <template>
   <b-navbar toggleable="lg" type="dark" variant="dark">
-    <b-navbar-brand href="/" v-if="onHomePage">
+    <b-navbar-brand v-if="onHomePage" href="/">
       Home
     </b-navbar-brand>
-    <b-navbar-brand href="/home" v-else-if="onSessionPage">
+    <b-navbar-brand v-else-if="onSessionPage" href="/home">
+      Home
+    </b-navbar-brand>
+    <b-navbar-brand v-else href="/">
       Home
     </b-navbar-brand>
     <b-navbar-toggle target="nav-collapse" />
@@ -21,7 +24,7 @@
         <b-nav-item v-if="onSessionPage" href="#">
           Invite People
         </b-nav-item>
-      </b-navbar-nav>Right aligned nav items -->
+      </b-navbar-nav>
       <b-navbar-nav class="ml-auto">
         <b-nav-item v-if="onIndexPage" right @click="spotifyLogin">
           Connect to Spotify
