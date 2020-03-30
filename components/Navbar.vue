@@ -1,12 +1,9 @@
 <template>
   <b-navbar toggleable="lg" type="dark" variant="dark">
-    <b-navbar-brand  href="/" v-if="onHomePage">
+    <b-navbar-brand v-if="onIndexPage" href="/">
       Home
     </b-navbar-brand>
-    <b-navbar-brand  href="/home"  v-else-if="onSessionPage">
-      Home
-    </b-navbar-brand>
-    <b-navbar-brand  href="/" v-else>
+    <b-navbar-brand v-else href="/home">
       Home
     </b-navbar-brand>
     <b-navbar-toggle target="nav-collapse" />
@@ -29,7 +26,7 @@
         <b-nav-item v-if="onIndexPage" right @click="spotifyLogin">
           Connect to Spotify
         </b-nav-item>
-        <b-nav-item v-else right href="/">
+        <b-nav-item v-else right href="/" @click="logout">
           Sign Out
         </b-nav-item>
       </b-navbar-nav>
@@ -66,6 +63,10 @@ export default {
   },
 
   methods: {
+
+    logout () {
+      localStorage.removeItem('spotify-access-token')
+    },
 
     checkPath (path) {
       return this.$route.path.substr(1).split('/')[0] === path
