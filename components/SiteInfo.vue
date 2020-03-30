@@ -1,7 +1,9 @@
 <template>
   <div class="container">
     <div class="site-info">
-      <h1 class="bold">{{ msg }}<span class="registered"><sup>&reg;</sup></span></h1>
+      <h1 class="bold">
+        {{ msg }}<span class="registered"><sup>&reg;</sup></span>
+      </h1>
       <h4 class="charcoal">
         Spotusfy is a simple app you can use to share music control of an existing Spotify account with your friends!
         <br><br>
@@ -29,7 +31,7 @@
         you're queueing songs!
       </h3>
       <h5 class="charcoal2">
-        For more detailed information about using Spotusfy<span class="registered"><sup>&reg;</sup></span> please refer to our <a v-bind:href="'/faqs'">FAQs</a>
+        For more detailed information about using Spotusfy<span class="registered"><sup>&reg;</sup></span> please refer to our <a :href="'/faqs'">FAQs</a>
       </h5>
     </div>
   </div>

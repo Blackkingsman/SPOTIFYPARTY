@@ -78,7 +78,7 @@
         trends by sharing Spoitfy sections such as New Releases and Discover.
       </h5>
       <h5 class="back">
-        <a v-bind:href="'/home'">Back to Home</a>
+        <a :href="'/home'">Back to Home</a>
       </h5>
       <br><br>
     </div>
