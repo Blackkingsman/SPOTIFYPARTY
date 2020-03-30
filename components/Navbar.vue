@@ -60,9 +60,6 @@ export default {
   },
 
   methods: {
-    handleClick () {
-      alert('hey something is working now')
-    },
 
     checkPath (path) {
       return this.$route.path.substr(1).split('/')[0] === path
