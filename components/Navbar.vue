@@ -1,12 +1,6 @@
 <template>
   <b-navbar toggleable="lg" type="dark" variant="dark">
-    <b-navbar-brand v-if="onHomePage" href="/">
-      Home
-    </b-navbar-brand>
-    <b-navbar-brand v-else-if="onSessionPage" href="/home">
-      Home
-    </b-navbar-brand>
-    <b-navbar-brand v-else href="/">
+    <b-navbar-brand  href="/">
       Home
     </b-navbar-brand>
     <b-navbar-toggle target="nav-collapse" />
