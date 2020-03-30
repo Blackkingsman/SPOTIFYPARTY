@@ -20,3 +20,10 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+  #spotifyLogin {
+    font-size: 21px;
+    padding: 12px;
+  }
+</style>

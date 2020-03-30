@@ -43,9 +43,9 @@
           </b-collapse>
         </b-card>
       </div>
-      <b-button v-if="isActive" variant="primary" class="connect-button">
+      <!-- <b-button v-if="isActive" variant="primary" class="connect-button">
         Connect with Spotify
-      </b-button>
+      </b-button> -->
       <!-- Button to cover the momentarily centered [x] when page refreshes: -->
       <b-button v-if="!isActive" variant="basic" class="white-cover">
         Cover
@@ -70,7 +70,7 @@ export default {
 
   .title {
     font-family: 'Lato', sans-serif;
-    margin-top: 380px;
+    margin-top: 180px;
     margin-bottom:45px;
     font-weight: 840;
     font-size: 65px;
@@ -96,7 +96,7 @@ export default {
   .white-cover {
     position: fixed;
     width: 100px;
-    top: 560px;
+    top: 360px;
     right: 48%;
     margin-left: auto;
     margin-right: auto;
