@@ -1,11 +1,7 @@
 <template>
   <div>
-    <b-button v-b-modal.modal-prevent-closing pill variant="success" style="color: white">
-      Join Session
-    </b-button>
-
     <b-modal
-      id="modal-prevent-closing"
+      id="join-modal"
       ref="modal"
       title="Join a Session"
       ok-variant="success"
@@ -26,7 +22,6 @@
             placeholder="Session ID"
             required
           />
-          <!--          <b-form-input v-modal="sessionTarget" placeholder="Please enter a session code" />-->
         </b-form-group>
       </form>
     </b-modal>
@@ -35,7 +30,7 @@
 
 <script>
 export default {
-  name: 'JoinButton',
+  name: 'JoinModal',
 
   data () {
     return {
@@ -75,7 +70,7 @@ export default {
         return
       }
       this.$nextTick(() => {
-        this.$bvModal.hide('modal-prevent-closing')
+        this.$bvModal.hide('join-modal')
       })
       this.$router.push(`/session/${this.session}`)
     }

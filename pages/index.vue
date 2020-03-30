@@ -2,17 +2,23 @@
   <div id="app">
     <navbar />
     <info-block />
+    <!-- <site-info /> -->
+    <spotify-login-button />
   </div>
 </template>
 
 <script>
 import Navbar from '../components/Navbar'
 import InfoBlock from '../components/InfoBlock'
+// import SiteInfo from '../components/SiteInfo'
+import SpotifyLoginButton from '../components/SpotifyLoginButton'
 
 export default {
   components: {
     Navbar,
-    InfoBlock
+    InfoBlock,
+    // SiteInfo,
+    SpotifyLoginButton
   }
 }
 </script>
