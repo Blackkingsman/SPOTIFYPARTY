@@ -5,15 +5,6 @@
       <div class="session">
         <Session />
       </div>
-      <div class="h2 mb-0">
-        <b-icon icon="exclamation-circle-fill" variant="success" />
-        <b-icon icon="exclamation-circle-fill" variant="warning" />
-        <b-icon icon="exclamation-circle-fill" variant="danger" />
-        <b-icon icon="exclamation-circle-fill" variant="info" />
-        <b-icon icon="exclamation-circle-fill" variant="primary" />
-        <b-icon icon="exclamation-circle-fill" variant="secondary" />
-        <b-icon icon="exclamation-circle-fill" variant="dark" />
-      </div>
       <div class="queue">
         <h4>Shared Queue</h4>
         <table class="table">

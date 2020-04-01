@@ -1,7 +1,6 @@
 <template>
   <div>
-    <h5>Current Session</h5>
-    <h5>Users: {{ items.length }}</h5>
+    <h5><small>User Count: {{ items.length }}</small></h5>
     <table class="session">
       <thead>
         <tr>
