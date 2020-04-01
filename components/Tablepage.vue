@@ -6,14 +6,12 @@
         <Session />
       </div>
       <div class="queue">
-        <h4>Shared Queue</h4>
         <table class="table">
           <thead>
             <tr>
               <th v-for="(column, index) in columns" :key="index">
-                {{ column }}
+                <h4 style="color: RGB(30,215,96);"><small> {{ column }}</small></h4>
               </th>
-              <th>Controls</th>
             </tr>
           </thead>
           <tbody>
@@ -26,9 +24,7 @@
                   <small>{{ item[column] }}</small>
                 </h5>
                 <img v-if="column=== 'Album Cover'" class="rounded-corners" :src="item['Album Cover'].valueOf()" style="width:75px;height:75px;">
-              </td>
-              <td>
-                <b-button v-if="item['User'].valueOf() === user" variant="danger" @click="removeElement (index)">
+                <b-button v-if="item['User'].valueOf() === user && column ==='Controls'" variant="danger" @click="removeElement (index)">
                   Remove
                 </b-button>
               </td>
@@ -106,7 +102,7 @@ export default {
         }
 
       ],
-      columns: ['No.', 'User', 'Album Cover', 'Album', 'Song', 'Artist'],
+      columns: ['No.', 'User', 'Album Cover', 'Album', 'Song', 'Artist', 'Controls'],
       slcQuality: null,
       user: 'logan234'
     }
