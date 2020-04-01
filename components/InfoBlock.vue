@@ -71,7 +71,7 @@ export default {
   .title {
     font-family: 'Lato', sans-serif;
     margin-top: 180px;
-    margin-bottom:45px;
+    margin-bottom:10px;
     font-weight: 840;
     font-size: 65px;
   }
@@ -83,6 +83,7 @@ export default {
     margin-right: 40px;
     font-size: 20px;
     font-weight: 500;
+    color: dimgray;
   }
   .when-closed {
     font-size: 20px;

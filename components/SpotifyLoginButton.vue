@@ -25,5 +25,6 @@ export default {
   #spotifyLogin {
     font-size: 21px;
     padding: 12px;
+    margin-top: 5px;
   }
 </style>
