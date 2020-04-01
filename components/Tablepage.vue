@@ -1,45 +1,61 @@
 <template>
   <div>
-    <button v-if="!isHidden" class="btn btn-success" @click="isHidden = !isHidden">
-      Show Shared Queue
-    </button>
-    <button v-if="isHidden" class="btn btn-danger" @click="isHidden = !isHidden">
-      Hide Shared Queue
-    </button>
-    <div v-show="isHidden">
-      <h2>Shared Queue</h2>
-      <table class="table">
-        <thead>
-          <tr>
-            <th v-for="(column, index) in columns" :key="index">
-              {{ column }}
-            </th>
-            <th>Controls</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="(item, index) in items" :key="index">
-            <td v-for="(column, indexColumn) in columns" :key="indexColumn">
-              <h5 v-if="column==='No.'"><small>{{ index +1 }}</small></h5>
-              <h5 v-if="column!='Album Cover'">
-                <small>{{ item[column] }}</small>
-              </h5>
-              <img v-if="column=== 'Album Cover'" :src="item['Album Cover'].valueOf()" style="width:100px;height:100px;">
-            </td>
-            <td>
-              <b-button v-if="item['User'].valueOf() === user" variant="danger" @click="removeElement (index)">
-                Remove
-              </b-button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+    <body>
+      <Navbar />
+      <div class="session">
+        <Session />
+      </div>
+      <div class="h2 mb-0">
+        <b-icon icon="exclamation-circle-fill" variant="success" />
+        <b-icon icon="exclamation-circle-fill" variant="warning" />
+        <b-icon icon="exclamation-circle-fill" variant="danger" />
+        <b-icon icon="exclamation-circle-fill" variant="info" />
+        <b-icon icon="exclamation-circle-fill" variant="primary" />
+        <b-icon icon="exclamation-circle-fill" variant="secondary" />
+        <b-icon icon="exclamation-circle-fill" variant="dark" />
+      </div>
+      <div class="queue">
+        <h4>Shared Queue</h4>
+        <table class="table">
+          <thead>
+            <tr>
+              <th v-for="(column, index) in columns" :key="index">
+                {{ column }}
+              </th>
+              <th>Controls</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="(item, index) in items" :key="index">
+              <td v-for="(column, indexColumn) in columns" :key="indexColumn">
+                <h5 v-if="column==='No.'">
+                  <small>{{ index +1 }}</small>
+                </h5>
+                <h5 v-if="column!='Album Cover'">
+                  <small>{{ item[column] }}</small>
+                </h5>
+                <img v-if="column=== 'Album Cover'" class="rounded-corners" :src="item['Album Cover'].valueOf()" style="width:75px;height:75px;">
+              </td>
+              <td>
+                <b-button v-if="item['User'].valueOf() === user" variant="danger" @click="removeElement (index)">
+                  Remove
+                </b-button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </body>
   </div>
 </template>
 
 <script>
+
+import Navbar from './Navbar.vue'
+import Session from './Session.vue'
+
 export default {
+  components: { Navbar, Session },
   data () {
     return {
       isHidden: false,
@@ -75,7 +91,7 @@ export default {
           Album: 'Hollywood\'s Bleeding',
           Song: 'Enemies',
           Artist: 'Post Malone',
-          'Album Cover': 'https://lh3.googleusercontent.com/proxy/lGRCGgaKbyOLCEJkcwIqfS-BkVlHzCp2bCS-jo0i1MJdysbXFMHEyrrdJn6Q_vneCja6tFEUrlechaYX5Jv58xz90FfCsv8h7B_CC7Ghbbj5EYe5WGW8t0jSuI2vb0dHpBkezQQGYd0zHV7IaF4'
+          'Album Cover': 'https://bloximages.newyork1.vip.townnews.com/dailynebraskan.com/content/tncms/assets/v3/editorial/f/98/f980399a-d299-11e9-a670-d3964076fe5f/5d759f4b36a7d.image.jpg'
         },
         {
           User: 'keith213',
@@ -101,7 +117,7 @@ export default {
       ],
       columns: ['No.', 'User', 'Album Cover', 'Album', 'Song', 'Artist'],
       slcQuality: null,
-      user: 'tphillips24'
+      user: 'logan234'
     }
   },
   methods: {
@@ -112,3 +128,37 @@ export default {
 
 }
 </script>
+<style>
+  .queue{
+    float: left;
+    width: 86%;
+  }
+  .session{
+    float: left;
+    width:120px;
+
+  }
+   body{
+    position: absolute;
+    margin: 0px;
+    overflow: hidden;
+    top: 0px;
+    bottom: 0px;
+    width: 100%;
+     background-color: RGB(83,83,83);
+   ;
+  }
+   button {
+     margin: 0 auto !important;
+     display: block !important;
+   }
+  img.rounded-corners {
+    border-radius: 20px;
+  }
+  h4{
+    color: white;
+  }
+  h5{
+    color: white;
+  }
+</style>

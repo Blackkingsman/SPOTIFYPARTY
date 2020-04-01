@@ -1,42 +1,23 @@
 <template>
   <div>
-    <button v-if="!isHidden" class="btn btn-success" @click="isHidden = !isHidden">
-      Show Current Session
-    </button>
-    <button v-if="isHidden" class="btn btn-danger" @click="isHidden = !isHidden">
-      Hide Current Session
-    </button>
-    <div v-show="isHidden">
-      <h2>Current Session</h2>
-      <table class="table">
-        <thead>
-          <tr>
-            <th>No. </th>
-            <th v-for="(column, index) in columns" :key="index">
-              {{ column }}
-            </th>
-            <th>Controls</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="(item, index) in items" :key="index">
-           <td>
-             {{ index +1 }}</td>
-            <td v-for="(column, indexColumn) in columns" :key="indexColumn">
-              {{ item[column] }}
-            </td>
-            <td>
-              <b-button v-if="item == items[0]" variant="danger">
-                Leave
-              </b-button>
-              <b-button v-if="item != items[0]" variant="danger" @click="removeElement(index)">
-                Remove
-              </b-button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+    <h5>Current Session</h5>
+    <h5>Users: {{ items.length }}</h5>
+    <table class="session">
+      <thead>
+        <tr>
+          <th v-for="(column, index) in columns" :key="index">
+            <h4><small>{{ column }}</small></h4>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="(item, index) in items" :key="index">
+          <td v-for="(column, indexColumn) in columns" :key="indexColumn">
+            <h5> <small>{{ item[column] }}</small></h5>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </template>
 
@@ -44,7 +25,7 @@
 export default {
   data () {
     return {
-      isHidden: false,
+
       optQuality: [
         { value: 1, text: 'Original' },
         { value: 2, text: 'Kw-1' },
@@ -52,33 +33,23 @@ export default {
       ],
       items: [
         {
-          Username: 'tphillips24',
-          Name: 'Terry ',
-          Role: 'Party Leader'
+          Username: 'tphillips24'
         },
         {
-          Username: 'keith213',
-          Name: 'Keith',
-          Role: 'Memeber'
+          Username: 'keith213'
         },
         {
-          Username: 'upasnadah25',
-          Name: 'Upasna',
-          Role: 'Memeber'
+          Username: 'upasnadah25'
         },
         {
-          Username: 'trung231',
-          Name: 'Trung',
-          Role: 'Memeber'
+          Username: 'trung231'
         },
         {
-          Username: 'griffin256',
-          Name: 'Griffin',
-          Role: 'Memeber'
+          Username: 'griffin256'
         }
 
       ],
-      columns: ['Username', 'Name', 'Role'],
+      columns: ['Username'],
       slcQuality: null,
       user: 'tphillips24'
     }
@@ -91,3 +62,12 @@ export default {
 
 }
 </script>
+<style>
+  table.a {
+    table-layout: fixed;
+    width: 180px;
+  }
+  tr:nth-child(even) {background-color: RGB(75,75,75)
+  ;}
+
+</style>
