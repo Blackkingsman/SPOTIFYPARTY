@@ -1,54 +1,112 @@
 <template>
   <b-navbar toggleable="lg" type="dark" variant="dark">
-    <b-navbar-brand href>
+    <b-navbar-brand v-if="onIndexPage" href="/">
       Home
     </b-navbar-brand>
-
+    <b-navbar-brand v-else href="/home">
+      Home
+    </b-navbar-brand>
     <b-navbar-toggle target="nav-collapse" />
 
     <b-collapse id="nav-collapse" is-nav>
       <b-navbar-nav>
-        <b-nav-item href="#">
+        <b-nav-item v-if="onHomePage" @click="makeID">
           Create Session
         </b-nav-item>
-        <b-nav-item href="#">
+        <b-nav-item v-if="onHomePage" v-b-modal.join-modal>
           Join Session
         </b-nav-item>
-        <b-nav-item href="#">
+
+        <join-modal />
+        <b-nav-item v-if="onSessionPage" href="#">
           Invite People
         </b-nav-item>
       </b-navbar-nav>
-
-      <!-- Right aligned nav items -->
       <b-navbar-nav class="ml-auto">
-        <b-nav-form>
-          <b-form-input size="md" class="mr-sm-2" placeholder="Search" />
-          <b-button size="md" class="my-2 my-sm-0" type="submit" @click="handleClick()">
-            Search
-          </b-button>
-        </b-nav-form>
-        <b-nav-item-dropdown right>
-          <!-- Using 'button-content' slot -->
-          <template v-slot:button-content>
-            <em>User</em>
-          </template>
-          <b-dropdown-item href="#">
-            Profile
-          </b-dropdown-item>
-          <b-dropdown-item href="#">
-            Sign Out
-          </b-dropdown-item>
-        </b-nav-item-dropdown>
+        <b-nav-item v-if="onIndexPage" right @click="spotifyLogin">
+          Connect to Spotify
+        </b-nav-item>
+        <b-nav-item v-else right href="/" @click="logout">
+          Sign Out
+        </b-nav-item>
       </b-navbar-nav>
     </b-collapse>
   </b-navbar>
 </template>
 
 <script>
+
+import JoinModal from './SessionButtons/Join'
+import { fireDb } from '~/plugins/firebase.js'
+
 export default {
+  name: 'EditButton',
+
+  components: {
+    JoinModal
+  },
+
+  data () {
+    return {}
+  },
+
+  computed: {
+    onIndexPage () {
+      return this.checkPath('')
+    },
+    onHomePage () {
+      return this.checkPath('home')
+    },
+    onSessionPage () {
+      return this.checkPath('session')
+    }
+  },
+
   methods: {
-    handleClick () {
-      alert('hey something is working now')
+
+    logout () {
+      localStorage.removeItem('spotify-access-token')
+    },
+
+    checkPath (path) {
+      return this.$route.path.substr(1).split('/')[0] === path
+    },
+
+    spotifyLogin (e) {
+      e.preventDefault()
+      document.getElementById('spotifyLogin').click()
+    },
+
+    createID () {
+      const length = 4
+      let result = ''
+      const characters =
+        'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
+      const charactersLength = characters.length
+      for (let i = 0; i < length; i++) {
+        result += characters.charAt(
+          Math.floor(Math.random() * charactersLength)
+        )
+      }
+      return result
+    },
+
+    async makeID () {
+      let result = this.createID()
+      console.log(result)
+      const ref = fireDb.collection('sessions').doc(result)
+      const document = { result }
+      console.log(document)
+      try {
+        await ref.get().then((doc) => {
+          if (doc.exists) {
+            result = this.createID()
+          } else {
+            ref.set(document)
+            this.$router.push(`/session/${result}`)
+          }
+        })
+      } catch (e) {}
     }
   }
 }

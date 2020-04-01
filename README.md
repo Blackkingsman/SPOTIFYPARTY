@@ -24,6 +24,7 @@ localhost or 192.168.99.100 with Docker Toolbox for Windows).
 - `docker-compose exec web npm install` - Reads the current package.json and install the required dependencies
 - `docker-compose logs -f --tail 20 web` - Reads the last 20 lines of the api container logs and displays to a
     continuous feed afterwards
+- `docker-compose run web npm run lint-fix` - Runs eslint fix
 
 ## Useful External Resources
 The project uses Vue.js with Nuxt.js - for detailed explanation on how things work, check out [Nuxt.js docs](https://nuxtjs.org).
