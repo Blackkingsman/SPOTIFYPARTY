@@ -16,7 +16,7 @@
             onclick="this.blur()"
             @click="isActive= !isActive"
           >
-            <span class="when-opened">x</span> <span class="when-closed">Site Info</span>
+            <span class="when-opened">&#215;</span> <span class="when-closed">Site Info</span>
           </b-button>
         </b-card-header>
         <b-collapse id="accordion-1" visible accordion="my-accordion" role="tabpanel">
@@ -89,13 +89,14 @@ export default {
   }
   .when-opened {
     /* margin-right: 40px; */
-    font-size: 20px;
-    font-weight: 400;
+    font-size: 16px;
+    font-weight: 600;
     color: black;
-    border-color: black;
+    border: 2px inset rgb(126, 126, 126);
+    /* background-color: rgb(250, 250, 250); */
+    border-radius: 25px;
     padding-left: 6px;
     padding-right: 6px;
-    padding-bottom: 2px;
   }
   .when-closed {
     font-size: 20px;
