@@ -30,6 +30,7 @@ export default {
     left: 0;
     right: 0;
     font-size: 21px;
+    font-weight: 700;
     background-color: rgb(29, 185, 84);
     color: white;
     border-color: transparent;

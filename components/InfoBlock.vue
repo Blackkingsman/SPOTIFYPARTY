@@ -72,18 +72,19 @@ export default {
   .title {
     font-family: 'Lato', sans-serif;
     font-weight: 840;
-    font-size: 60px;
+    font-size: 58px;
   }
   .collapsed > .when-opened,
   :not(.collapsed) > .when-closed {
     display: none;
   }
   .when-opened {
+    margin-right: 19px;
     font-size: 17px;
     font-weight: 600;
     color: black;
     /* border: 2px inset rgb(126, 126, 126); */
-    background-color: rgb(234, 234, 234);
+    background-color: rgb(239, 239, 239);
     border-radius: 25px;
     padding-left: 6px;
     padding-right: 6px;
@@ -115,6 +116,7 @@ export default {
     margin: 0px;
   }
   .card .card-header {
+    height: 55px;
     background-color: transparent;
     border-color: transparent;
   }
@@ -138,7 +140,7 @@ export default {
     margin-top: 0px;
     margin-left: 75px;
     margin-right: 75px;
-    margin-bottom: 35px;
+    margin-bottom: 32px;
   }
   .lil-headings {
     font-size: 19px;
@@ -158,11 +160,11 @@ export default {
     margin-left: 80px;
     margin-right: 80px;
     margin-top: 15px;
-    margin-bottom: 35px;
+    margin-bottom: 65px;
   }
-  .green {
+  /* .green {
     color: rgb(29, 185, 84);
-  }
+  } */
   /* .connect-button {
     position: absolute;
     z-index: -1;
