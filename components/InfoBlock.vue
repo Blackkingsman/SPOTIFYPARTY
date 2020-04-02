@@ -23,22 +23,22 @@
           <h5 class="description">
             Spotusfy is a simple app you can use to share music control of an existing Spotify account with your friends! Sessions are created and joined which allow members to search for and add desired songs directly from Spotify into a shared playlist. You can:
           </h5>
-          <h6 class="lil-bold">
+          <h6 class="lil-headings">
             Start a New Session:
           </h6>
-          <h6 class="left-justify">
-            Click the 'Create Session' tab and log in with your existing Spotify account information
+          <h6 class="lil-text">
+            Click the 'Create Session' tab and log in with your existing Spotify account information (first you'll need to <span class="green">Connect with Spotify</span>)
           </h6>
-          <h6 class="lil-bold">
+          <h6 class="lil-headings">
             Join an Existing Session:
           </h6>
-          <h6 class="left-justify">
+          <h6 class="lil-text">
             Have a friend tell you the name they gave their existing session and join it without needing an invite using the 'Join Session' button
           </h6>
-          <h6 class="lil-bold">
+          <h6 class="lil-headings">
             Invite Friends to Join:
           </h6>
-          <h6 class="left-justify">
+          <h6 class="lil-text">
             Once you are in a session you can invite friends to join by their usernames via the 'Invite People' tab
           </h6>
         </b-collapse>
@@ -52,21 +52,12 @@
 </template>
 
 <script>
-// Import the EventBus we just created.
-import { EventBus } from '../event-bus.js'
 
 export default {
   name: 'InfoBlock',
   data () {
     return {
       isActive: false
-    }
-  },
-  methods: {
-    emitGlobalClickEvent () {
-      this.isActive = false
-      // Send the event on a channel (i-got-clicked) with a payload (the click count.)
-      EventBus.$emit('active', this.isActive)
     }
   }
 }
@@ -88,7 +79,6 @@ export default {
     display: none;
   }
   .when-opened {
-    /* margin-right: 40px; */
     font-size: 17px;
     font-weight: 600;
     color: black;
@@ -134,9 +124,6 @@ export default {
     position: relative;
     margin: 0px;
   }
-  /* .info-button {
-    margin: 15px;
-  } */
   #accordion-1 {
     position: relative;
   }
@@ -153,18 +140,21 @@ export default {
     margin-right: 75px;
     margin-bottom: 35px;
   }
-  .lil-bold {
+  .lil-headings {
     font-size: 19px;
     font-weight: 840px;
     margin: 15px;
   }
-  .left-justify {
+  .lil-text {
     font-size: 18px;
     text-align: justify;
     margin-left: 80px;
     margin-right: 80px;
     margin-top: 15px;
     margin-bottom: 25px;
+  }
+  .green {
+    color: rgb(29, 185, 84);
   }
   /* .connect-button {
     position: absolute;

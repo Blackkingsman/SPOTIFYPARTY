@@ -43,7 +43,7 @@ export default {
   .container {
     display: flex;
     flex-direction: column;
-    height: 85vh;
+    height: 92vh;
     justify-content: center;
     align-items: center;
   }
@@ -51,7 +51,6 @@ export default {
     display: flex;
     align-items: flex-end;
     justify-content: center;
-    /* height: 50vh; */
   }
   .spotify {
     z-index: 9999;

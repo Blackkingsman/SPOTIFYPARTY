@@ -1,19 +1,10 @@
 <template>
-  <!-- v-if="isActive"  -->
-  <b-button id="spotifyLogin" pill variant="success" @click="redirectToSpotify">
+  <b-button id="spotifyLogin" pill @click="redirectToSpotify">
     Connect with Spotify
   </b-button>
 </template>
 
 <script>
-// // Import the EventBus.
-// import { EventBus } from '../event-bus.js'
-
-// // Listen for the active event and its payload.
-// EventBus.$on('active', (isActive) => {
-//   isActive = false
-// })
-
 export default {
   methods: {
     redirectToSpotify () {
@@ -39,5 +30,11 @@ export default {
     left: 0;
     right: 0;
     font-size: 21px;
+    background-color: rgb(29, 185, 84);
+    color: white;
+    border-color: transparent;
+  }
+  #spotifyLogin:hover {
+    background-color: rgb(30, 211, 93);
   }
 </style>
