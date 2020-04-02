@@ -26,7 +26,10 @@ export default {
     z-index: -1;
     margin-left: auto;
     margin-right: auto;
-    padding: 12px;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    padding-left: 24px;
+    padding-right: 24px;
     left: 0;
     right: 0;
     font-size: 21px;

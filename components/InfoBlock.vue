@@ -66,7 +66,9 @@ export default {
 <style scoped>
   @import url('https://fonts.googleapis.com/css?family=Lato:700&display=swap');
 
-  .page {
+  h1 {
+    margin: 0px;
+  }.page {
     margin: 0px;
   }
   .title {
@@ -79,17 +81,18 @@ export default {
     display: none;
   }
   .when-opened {
-    margin-right: 19px;
-    font-size: 17px;
-    font-weight: 600;
+    margin-right: 23px;
+    font-size: 19px;
+    font-weight: 400;
     color: black;
-    /* border: 2px inset rgb(126, 126, 126); */
-    background-color: rgb(239, 239, 239);
+    background-color: rgb(250, 250, 250);
     border-radius: 25px;
+    border-color: black;
     padding-left: 6px;
     padding-right: 6px;
   }
   .when-closed {
+    padding-top: 20px;
     font-size: 20px;
     color: black;
   }
@@ -119,6 +122,7 @@ export default {
     height: 55px;
     background-color: transparent;
     border-color: transparent;
+    margin: 0px;
   }
   .card {
     background-color: transparent;
@@ -135,19 +139,24 @@ export default {
     margin-right: 150px;
   }
   .description {
-    font-size: 19px;
+    font-size: 21px;
+    font-weight: 200;
+    line-height: 125%;
     text-align: justify;
     margin-top: 0px;
     margin-left: 75px;
     margin-right: 75px;
-    margin-bottom: 32px;
+    margin-bottom: 28px;
   }
   .lil-headings {
-    font-size: 19px;
+    font-size: 20px;
+    font-weight: 500;
     margin: 15px;
   }
   .lil-text {
-    font-size: 18px;
+    font-size: 19px;
+    font-weight: 50;
+    line-height: 140%;
     text-align: justify;
     margin-left: 80px;
     margin-right: 80px;
@@ -155,7 +164,9 @@ export default {
     margin-bottom: 25px;
   }
   .lil-text2 {
-    font-size: 18px;
+    font-size: 19px;
+    font-weight: 50;
+    line-height: 140%;
     text-align: justify;
     margin-left: 80px;
     margin-right: 80px;
