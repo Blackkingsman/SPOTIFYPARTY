@@ -85,7 +85,7 @@ export default {
     font-size: 19px;
     font-weight: 400;
     color: black;
-    background-color: rgb(250, 250, 250);
+    background-color: rgb(252, 251, 251);
     border-radius: 25px;
     border-color: black;
     padding-left: 6px;
