@@ -81,7 +81,7 @@ export default {
   .title {
     font-family: 'Lato', sans-serif;
     font-weight: 840;
-    font-size: 62px;
+    font-size: 60px;
   }
   .collapsed > .when-opened,
   :not(.collapsed) > .when-closed {
@@ -89,11 +89,11 @@ export default {
   }
   .when-opened {
     /* margin-right: 40px; */
-    font-size: 16px;
+    font-size: 17px;
     font-weight: 600;
     color: black;
-    border: 2px inset rgb(126, 126, 126);
-    /* background-color: rgb(250, 250, 250); */
+    /* border: 2px inset rgb(126, 126, 126); */
+    background-color: rgb(234, 234, 234);
     border-radius: 25px;
     padding-left: 6px;
     padding-right: 6px;
@@ -106,6 +106,8 @@ export default {
     background-color: transparent;
     border-color: transparent;
     color: black;
+    margin-right: 6px;
+    margin-bottom: 4px;
   }
   .white-cover {
     position: fixed;
