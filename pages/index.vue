@@ -38,16 +38,19 @@ export default {
     bottom: 0;
   }
   #nav {
+    position: absolute;
+    width: 100%;
     z-index: 9999;
   }
   .container {
     display: flex;
     flex-direction: column;
-    height: 92vh;
+    height: 100vh;
     justify-content: center;
     align-items: center;
   }
   .info {
+    z-index: 1;
     display: flex;
     align-items: flex-end;
     justify-content: center;

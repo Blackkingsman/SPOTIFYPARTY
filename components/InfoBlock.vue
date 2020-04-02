@@ -106,7 +106,7 @@ export default {
     margin-right: auto;
     background-color: white;
     color: white;
-    z-index: 9999;
+    z-index: 9998;
   }
   .card-header .btn[aria-expanded=true] {
     float: right;
