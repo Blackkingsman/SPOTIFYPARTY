@@ -134,9 +134,9 @@ export default {
     position: relative;
     margin: 0px;
   }
-  .info-button {
+  /* .info-button {
     margin: 15px;
-  }
+  } */
   #accordion-1 {
     position: relative;
   }
