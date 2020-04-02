@@ -1,22 +1,23 @@
 <template>
-  <div>
-    <h5><small>User Count: {{ items.length }}</small></h5>
-    <table class="session">
-      <thead>
-        <tr>
-          <th v-for="(column, index) in columns" :key="index">
-            <h4><small>{{ column }}</small></h4>
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="(item, index) in items" :key="index">
-          <td v-for="(column, indexColumn) in columns" :key="indexColumn">
-            <h5> <small>{{ item[column] }}</small></h5>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+  <div class="session">
+    <div>
+      <table class="table">
+        <thead>
+          <tr>
+            <th v-for="(column, index) in columns" :key="index">
+              <h4><small>{{ items.length }} {{ column }}s  </small></h4>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="(item, index) in items" :key="index">
+            <td v-for="(column, indexColumn) in columns" :key="indexColumn">
+              <h5> <small>{{ item[column] }}</small></h5>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 </template>
 
@@ -32,23 +33,23 @@ export default {
       ],
       items: [
         {
-          Username: 'tphillips24'
+          User: 'tphillips24'
         },
         {
-          Username: 'keith213'
+          User: 'keith213'
         },
         {
-          Username: 'upasnadah25'
+          User: 'upasnadah25'
         },
         {
-          Username: 'trung231'
+          User: 'trung231'
         },
         {
-          Username: 'griffin256'
+          User: 'griffin256'
         }
 
       ],
-      columns: ['Username'],
+      columns: ['User'],
       slcQuality: null,
       user: 'tphillips24'
     }
@@ -61,12 +62,6 @@ export default {
 
 }
 </script>
-<style>
-  table.a {
-    table-layout: fixed;
-    width: 180px;
-  }
-  tr:nth-child(even) {background-color: RGB(75,75,75)
-  ;}
 
+<style>
 </style>
