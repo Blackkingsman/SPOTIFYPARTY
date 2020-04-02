@@ -38,7 +38,7 @@
           <h6 class="lil-headings">
             Invite Friends to Join:
           </h6>
-          <h6 class="lil-text">
+          <h6 class="lil-text2">
             Once you are in a session you can invite friends to join by their usernames via the 'Invite People' tab
           </h6>
         </b-collapse>
@@ -152,6 +152,14 @@ export default {
     margin-right: 80px;
     margin-top: 15px;
     margin-bottom: 25px;
+  }
+  .lil-text2 {
+    font-size: 18px;
+    text-align: justify;
+    margin-left: 80px;
+    margin-right: 80px;
+    margin-top: 15px;
+    margin-bottom: 35px;
   }
   .green {
     color: rgb(29, 185, 84);
