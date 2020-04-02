@@ -142,7 +142,6 @@ export default {
   }
   .lil-headings {
     font-size: 19px;
-    font-weight: 840px;
     margin: 15px;
   }
   .lil-text {
