@@ -1,65 +1,72 @@
 <template>
-  <div class="container">
-    <div class="page">
-      <h1 class="title">
-        spotusfy.com
-      </h1>
-      <div role="tablist" class="info-block">
-        <b-card id="card" no-body class="mb-1">
-          <b-card-header header-tag="header" class="p-1" role="tab">
-            <b-button
-              id="toggle-button"
-              v-b-toggle.accordion-1
-              href="#"
-              variant="light"
-              onclick="this.blur()"
-              @click="isActive= !isActive"
-            >
-              <span class="when-opened">x</span> <span class="when-closed">Site Info</span>
-            </b-button>
-          </b-card-header>
-          <b-collapse id="accordion-1" visible accordion="my-accordion" role="tabpanel">
-            <h5 class="description">
-              Spotusfy is a simple app you can use to share music control of an existing Spotify account with your friends! Sessions are created and joined which allow members to search for and add desired songs directly from Spotify into a shared playlist. You can:
-            </h5>
-            <h6 class="lil-bold">
-              Start a New Session:
-            </h6>
-            <h6 class="left-justify">
-              Click the 'Create Session' tab and log in with your existing Spotify account information
-            </h6>
-            <h6 class="lil-bold">
-              Join an Existing Session:
-            </h6>
-            <h6 class="left-justify">
-              Have a friend tell you the name they gave their existing session and join it without needing an invite using the 'Join Session' button
-            </h6>
-            <h6 class="lil-bold">
-              Invite Friends to Join:
-            </h6>
-            <h6 class="left-justify">
-              Once you are in a session you can invite friends to join by their usernames via the 'Invite People' tab
-            </h6>
-          </b-collapse>
-        </b-card>
-      </div>
-      <!-- <b-button v-if="isActive" variant="primary" class="connect-button">
-        Connect with Spotify
-      </b-button> -->
-      <!-- Button to cover the momentarily centered [x] when page refreshes: -->
-      <b-button v-if="!isActive" variant="basic" class="white-cover">
-        Cover
-      </b-button>
+  <div class="page">
+    <h1 class="title">
+      spotusfy.com
+    </h1>
+    <div role="tablist" class="info-block">
+      <b-card id="card" no-body class="mb-1">
+        <b-card-header header-tag="header" class="p-1" role="tab">
+          <b-button v-if="!isActive" variant="basic" class="white-cover">
+            Cover
+          </b-button>
+          <b-button
+            id="toggle-button"
+            v-b-toggle.accordion-1
+            href="#"
+            onclick="this.blur()"
+            @click="isActive= !isActive"
+          >
+            <span class="when-opened">x</span> <span class="when-closed">Site Info</span>
+          </b-button>
+        </b-card-header>
+        <b-collapse id="accordion-1" visible accordion="my-accordion" role="tabpanel">
+          <h5 class="description">
+            Spotusfy is a simple app you can use to share music control of an existing Spotify account with your friends! Sessions are created and joined which allow members to search for and add desired songs directly from Spotify into a shared playlist. You can:
+          </h5>
+          <h6 class="lil-bold">
+            Start a New Session:
+          </h6>
+          <h6 class="left-justify">
+            Click the 'Create Session' tab and log in with your existing Spotify account information
+          </h6>
+          <h6 class="lil-bold">
+            Join an Existing Session:
+          </h6>
+          <h6 class="left-justify">
+            Have a friend tell you the name they gave their existing session and join it without needing an invite using the 'Join Session' button
+          </h6>
+          <h6 class="lil-bold">
+            Invite Friends to Join:
+          </h6>
+          <h6 class="left-justify">
+            Once you are in a session you can invite friends to join by their usernames via the 'Invite People' tab
+          </h6>
+        </b-collapse>
+      </b-card>
     </div>
+    <!-- <b-button v-if="isActive" variant="primary" class="connect-button">
+      Connect with Spotify
+    </b-button> -->
+    <!-- Button to cover the momentarily centered [x] when page refreshes: -->
   </div>
 </template>
 
 <script>
+// Import the EventBus we just created.
+import { EventBus } from '../event-bus.js'
+
 export default {
   name: 'InfoBlock',
   data () {
     return {
       isActive: false
+    }
+  },
+  methods: {
+    emitGlobalClickEvent () {
+      this.isActive = false
+      // Send the event on a channel (i-got-clicked) with a payload (the click count.)
+      EventBus.$emit('active', this.isActive)
     }
   }
 }
@@ -68,22 +75,27 @@ export default {
 <style scoped>
   @import url('https://fonts.googleapis.com/css?family=Lato:700&display=swap');
 
+  .page {
+    margin: 0px;
+  }
   .title {
     font-family: 'Lato', sans-serif;
-    margin-top: 180px;
-    margin-bottom:10px;
     font-weight: 840;
-    font-size: 65px;
+    font-size: 62px;
   }
   .collapsed > .when-opened,
   :not(.collapsed) > .when-closed {
     display: none;
   }
   .when-opened {
-    margin-right: 40px;
+    /* margin-right: 40px; */
     font-size: 20px;
-    font-weight: 500;
-    color: dimgray;
+    font-weight: 400;
+    color: black;
+    border-color: black;
+    padding-left: 6px;
+    padding-right: 6px;
+    padding-bottom: 2px;
   }
   .when-closed {
     font-size: 20px;
@@ -97,8 +109,6 @@ export default {
   .white-cover {
     position: fixed;
     width: 100px;
-    top: 360px;
-    right: 48%;
     margin-left: auto;
     margin-right: auto;
     background-color: white;
@@ -116,26 +126,21 @@ export default {
     border-color: transparent;
   }
   .card {
-    background-color: white;
+    background-color: transparent;
     border-color: transparent;
     position: relative;
-  }
-  .site-info {
-    margin-left: 110px;
-    margin-right: 110px;
-    margin-top: 40px;
+    margin: 0px;
   }
   .info-button {
     margin: 15px;
   }
   #accordion-1 {
-    margin: 15px;
     position: relative;
   }
   .info-block {
     margin-top: 30px;
-    margin-left: 200px;
-    margin-right: 200px;
+    margin-left: 150px;
+    margin-right: 150px;
   }
   .description {
     font-size: 19px;
@@ -158,7 +163,7 @@ export default {
     margin-top: 15px;
     margin-bottom: 25px;
   }
-  .connect-button {
+  /* .connect-button {
     position: absolute;
     z-index: -1;
     margin-top: 5px;
@@ -167,8 +172,5 @@ export default {
     left: 0;
     right: 0;
     font-size: 21px;
-  }
-  .m-2 {
-    padding-top: 100px;
-  }
+  } */
 </style>

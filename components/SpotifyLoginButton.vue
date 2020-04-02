@@ -1,10 +1,19 @@
 <template>
+  <!-- v-if="isActive"  -->
   <b-button id="spotifyLogin" pill variant="success" @click="redirectToSpotify">
     Connect with Spotify
   </b-button>
 </template>
 
 <script>
+// // Import the EventBus.
+// import { EventBus } from '../event-bus.js'
+
+// // Listen for the active event and its payload.
+// EventBus.$on('active', (isActive) => {
+//   isActive = false
+// })
+
 export default {
   methods: {
     redirectToSpotify () {
@@ -23,8 +32,12 @@ export default {
 
 <style scoped>
   #spotifyLogin {
-    font-size: 21px;
+    z-index: -1;
+    margin-left: auto;
+    margin-right: auto;
     padding: 12px;
-    margin-top: 5px;
+    left: 0;
+    right: 0;
+    font-size: 21px;
   }
 </style>
