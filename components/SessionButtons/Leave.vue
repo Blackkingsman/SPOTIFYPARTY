@@ -4,7 +4,7 @@
       Leave Session
     </b-button>
     <b-modal
-      id = "modal-prevent-closing-leave"
+      id="modal-prevent-closing-leave"
       ref="modal"
       title="Leave Session?"
       ok-variant="success"
@@ -12,13 +12,12 @@
       @show="resetModal"
       @hidden="resetModal"
       @ok="handleOk"
-      >
-
+    >
       <form ref="form" @submit.stop.prevent="handleSubmit">
         <b-form-group
           :state="leaveState"
           :invalid-feedback="error"
-          >
+        >
           <p> Are you sure you want to leave? </p>
         </b-form-group>
       </form>
@@ -27,6 +26,8 @@
 </template>
 
 <script>
+import { fireDb } from '~/plugins/firebase.js'
+
 export default {
   name: 'LeaveModal',
 
@@ -39,26 +40,26 @@ export default {
   },
 
   methods: {
-    // validateSession () {
-    //   this.error = null
-    //   if (!this.$refs.form.checkValidity()) {
-    //     this.error = 'Please enter a session ID'
-    //   } else if (this.session.length !== 4) {
-    //     this.error = 'The session ID should be 4 characters'
-    //   }
-    //   if (this.error) {
-    //     this.sessionState = false
-    //     return false
-    //   }
-    //   return true
-    // },
 
-    // resetModal () {
-    //   this.session = ''
-    //   this.sessionState = null
-    // },
+    async removeID () {
+      const docID = this.$route.params.id
+      let result
+      console.log(result)
+      const ref = fireDb.collection('sessions').doc(docID)
+      console.log(ref)
+      try {
+        await ref.get().then((doc) => {
+          if (doc.exists) {
+            result = fireDb.collection('sessions').doc(docID).delete()
+          }
+        })
+      } catch (e) {}
+    },
 
     handleOk (bvModalEvt) {
+      this.removeID()
+      const result = this.$route.params.id
+      console.log(result)
       bvModalEvt.preventDefault()
       this.handleSubmit()
     },

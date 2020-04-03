@@ -99,10 +99,10 @@ export default {
 
     async makeID () {
       let result = this.createID()
-      console.log(result)
+      // console.log(result)
       const ref = fireDb.collection('sessions').doc(result)
       const document = { result }
-      console.log(document)
+      // console.log(document)
       try {
         await ref.get().then((doc) => {
           if (doc.exists) {
