@@ -34,6 +34,7 @@ export default {
   data () {
     return {
       session: '',
+      flag: false,
       sessionState: null,
       error: null
     }
@@ -43,28 +44,49 @@ export default {
 
     async removeID () {
       const docID = this.$route.params.id
-      let result
-      console.log(result)
-      const ref = fireDb.collection('sessions').doc(docID)
-      console.log(ref)
+      console.log(docID)
+      let returnValue = false
+      let docExists = false
       try {
-        await ref.get().then((doc) => {
+        const docRef = await fireDb.collection('sessions').doc(docID)
+        await docRef.get().then(function (doc) {
           if (doc.exists) {
-            result = fireDb.collection('sessions').doc(docID).delete()
+            docExists = true
+            this.$data.flag = true
+          } else {
+            window.alert('ERROR: Session does not exist!')
+            console.log('no such doc exists')
           }
         })
-      } catch (e) {}
+      } catch (e) {
+        console.log(e.toString())
+      }
+      if (docExists) {
+        try {
+          await fireDb.collection('sessions').doc(docID).delete()
+          returnValue = true
+        } catch (e) {
+          console.log(e.toString())
+        }
+      }
+      return returnValue
     },
 
-    handleOk (bvModalEvt) {
-      this.removeID()
-      const result = this.$route.params.id
-      console.log(result)
-      bvModalEvt.preventDefault()
-      this.handleSubmit()
+    async handleOk (bvModalEvt) {
+      console.log(this.$data.flag.toString())
+      const success = await this.removeID()
+      console.log(this.$data.flag.toString())
+      if (success) {
+        console.log('here')
+        bvModalEvt.preventDefault()
+        this.handleSubmit()
+      } else {
+        console.log('dhuoahdoadadijlajd')
+      }
     },
 
     handleSubmit () {
+      console.log('home page')
       this.$router.push('/home')
     }
   }
