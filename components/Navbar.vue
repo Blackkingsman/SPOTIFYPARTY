@@ -19,7 +19,10 @@
 
         <join-modal />
         <b-nav-item v-if="onSessionPage" href="#">
-          Invite People
+          <invite-button />
+        </b-nav-item>
+        <b-nav-item v-if="onSessionPage" href="#">
+          <leave-button />
         </b-nav-item>
       </b-navbar-nav>
       <b-navbar-nav class="ml-auto">
@@ -37,13 +40,16 @@
 <script>
 
 import JoinModal from './SessionButtons/Join'
+import InviteButton from './SessionButtons/Invite'
+import LeaveButton from './SessionButtons/Leave'
 import { fireDb } from '~/plugins/firebase.js'
-
 export default {
   name: 'EditButton',
 
   components: {
-    JoinModal
+    JoinModal,
+    InviteButton,
+    LeaveButton
   },
 
   data () {
@@ -93,10 +99,10 @@ export default {
 
     async makeID () {
       let result = this.createID()
-      console.log(result)
+      // console.log(result)
       const ref = fireDb.collection('sessions').doc(result)
       const document = { result }
-      console.log(document)
+      // console.log(document)
       try {
         await ref.get().then((doc) => {
           if (doc.exists) {
