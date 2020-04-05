@@ -6,13 +6,10 @@
       title="Leave Session?"
       ok-variant="success"
       ok-title="Yes"
-      @show="resetModal"
-      @hidden="resetModal"
       @ok="handleOk"
     >
       <form ref="form" @submit.stop.prevent="handleSubmit">
         <b-form-group
-          :state="leaveState"
           :invalid-feedback="error"
         >
           <p> Are you sure you want to leave? </p>
@@ -41,7 +38,6 @@ export default {
 
     async removeID () {
       const docID = this.$route.params.id
-      console.log(docID)
       let returnValue = false
       let docExists = false
       try {
@@ -52,38 +48,33 @@ export default {
             this.$data.flag = true
           } else {
             window.alert('ERROR: Session does not exist!')
-            console.log('no such doc exists')
           }
         })
       } catch (e) {
-        console.log(e.toString())
+        window.alert(e.toString())
       }
       if (docExists) {
         try {
           await fireDb.collection('sessions').doc(docID).delete()
           returnValue = true
         } catch (e) {
-          console.log(e.toString())
+          window.alert(e.toString())
         }
       }
       return returnValue
     },
 
     async handleOk (bvModalEvt) {
-      console.log(this.$data.flag.toString())
       const success = await this.removeID()
-      console.log(this.$data.flag.toString())
       if (success) {
-        console.log('here')
         bvModalEvt.preventDefault()
         this.handleSubmit()
       } else {
-        console.log('dhuoahdoadadijlajd')
+        window.alert('dhuoahdoadadijlajd')
       }
     },
 
     handleSubmit () {
-      console.log('home page')
       this.$router.push('/home')
     }
   }

@@ -1,9 +1,13 @@
 <template>
   <div id="app">
-    <div><Navbar/></div>
+    <div><Navbar /></div>
     <div class="flex-container">
-      <div class="session"><Session/></div>
-      <div  class="queue"><Tablepage /></div>
+      <div class="session">
+        <Session />
+      </div>
+      <div class="queue">
+        <Tablepage />
+      </div>
     </div>
   </div>
 </template>
