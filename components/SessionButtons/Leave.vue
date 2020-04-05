@@ -51,14 +51,14 @@ export default {
           }
         })
       } catch (e) {
-        window.alert(e.toString())
+        console.log(e.toString())
       }
       if (docExists) {
         try {
           await fireDb.collection('sessions').doc(docID).delete()
           returnValue = true
         } catch (e) {
-          window.alert(e.toString())
+          console.log(e.toString())
         }
       }
       return returnValue
