@@ -25,14 +25,6 @@ export default {
 
 </script>
 <style>
-  #app {
-    position: absolute;
-    height: 100%;
-    width: 100%;
-    overflow: hidden ;
-    background: rgb(0,0,0);
-    background: linear-gradient(0deg, rgba(0,0,0,1) 13%, rgba(29,185,84,1) 100%);
-  }
   .flex-container{
     display: flex;
     flex-wrap: wrap;
