@@ -1,8 +1,5 @@
 <template>
   <div>
-    <b-button v-b-modal.modal-prevent-closing-leave variant="/" style="color: white">
-      Leave Session
-    </b-button>
     <b-modal
       id="modal-prevent-closing-leave"
       ref="modal"

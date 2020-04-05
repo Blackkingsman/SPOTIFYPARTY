@@ -16,14 +16,15 @@
         <b-nav-item v-if="onHomePage" v-b-modal.join-modal>
           Join Session
         </b-nav-item>
-
         <join-modal />
-        <b-nav-item v-if="onSessionPage" href="#">
-          <invite-button />
+        <b-nav-item v-if="onSessionPage" v-b-modal.modal-prevent-closing-invite>
+          Invite People
         </b-nav-item>
-        <b-nav-item v-if="onSessionPage" href="#">
-          <leave-button />
+        <invite-button />
+        <b-nav-item v-if="onSessionPage" v-b-modal.modal-prevent-closing-leave>
+          Leave Session
         </b-nav-item>
+        <leave-button />
       </b-navbar-nav>
       <b-navbar-nav class="ml-auto">
         <b-nav-item v-if="onIndexPage" right @click="spotifyLogin">
@@ -43,6 +44,7 @@ import JoinModal from './SessionButtons/Join'
 import InviteButton from './SessionButtons/Invite'
 import LeaveButton from './SessionButtons/Leave'
 import { fireDb } from '~/plugins/firebase.js'
+
 export default {
   name: 'EditButton',
 

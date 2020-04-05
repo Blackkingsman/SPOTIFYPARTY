@@ -1,9 +1,5 @@
 <template>
   <div>
-    <b-button v-b-modal.modal-prevent-closing-invite variant="/" style="color: white">
-      Invite People
-    </b-button>
-
     <b-modal
       id="modal-prevent-closing-invite"
       ref="modal"

@@ -12,10 +12,12 @@
 
 <script>
 
+import { fireDb } from '~/plugins/firebase.js'
+
 export default {
 
   methods: {
-    makeID () {
+    createID () {
       const length = 4
       let result = ''
       const characters =
@@ -26,7 +28,25 @@ export default {
           Math.floor(Math.random() * charactersLength)
         )
       }
-      this.$router.push(`/session/${result}`)
+      return result
+    },
+
+    async makeID () {
+      let result = this.createID()
+      // console.log(result)
+      const ref = fireDb.collection('sessions').doc(result)
+      const document = { result }
+      // console.log(document)
+      try {
+        await ref.get().then((doc) => {
+          if (doc.exists) {
+            result = this.createID()
+          } else {
+            ref.set(document)
+            this.$router.push(`/session/${result}`)
+          }
+        })
+      } catch (e) {}
     }
   }
 }
