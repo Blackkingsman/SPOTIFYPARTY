@@ -3,10 +3,11 @@
     <div><Navbar /></div>
     <div class="flex-container">
       <div class="session">
-        <Session />
+        <currentSession />
       </div>
       <div class="queue">
         <Tablepage />
+        <b-input id="txtUserId" v-model="input" @keyup.enter="addmember(input)" />
       </div>
     </div>
   </div>
@@ -15,16 +16,27 @@
 <script>
 import Tablepage from '../../components/Tablepage'
 import Navbar from '../../components/Navbar.vue'
-import Session from '../../components/Session'
+import currentSession from '../../components/Session'
+import Session from '../../model/Session'
 export default {
-
   name: 'App',
   components: {
     Tablepage,
     Navbar,
-    Session
+    currentSession
+  },
+  data () {
+    return {
+      session: new Session(this.$route.params.id),
+      input: ''
+    }
+  },
+  methods: {
+    async addmember (name) {
+      // track: {track_id, track_title, track_artist, track_album}
+      await this.session.addtoQueue(name, { track_id: '456145640564056', track_name: 'Lil Wayne', artist: 'Trippie Redd', track_album: '!' })
+    }
   }
-
 }
 
 </script>
