@@ -53,7 +53,7 @@ export default {
       user: 'logan234'
     }
   },
-  async mounted () {
+  async created () {
     const sessionref = fireDb.collection('sessions')
     await sessionref.where('result', '==', this.$route.params.id).onSnapshot((data) => {
       this.db = []
@@ -73,10 +73,10 @@ export default {
           this.songs.forEach((item) => {
             this.items.push({
               User: item.uid,
-              Album: item.track.track_album,
+              Album: item.track.album_name,
               Song: item.track.track_name,
-              'Album Cover': 'https://upload.wikimedia.org/wikipedia/en/c/cd/Trippie_Redd_-_%21.png',
-              Artist: item.track.artist
+              'Album Cover': item.track.url,
+              Artist: item.track.artist_name
             })
           })
         }
