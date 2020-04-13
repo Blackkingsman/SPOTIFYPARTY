@@ -55,7 +55,7 @@ export default {
     const holder = []
     let flag = true // will be used later to see if playlist already exists
     snapshot.forEach((item) => {
-      // checks to see if the item is undefined or not set flag false if undefined
+      // checks to see if the item is undefined or not. set flag false if undefined
       if (typeof item.data().playlistid === 'undefined') {
         flag = false
       } else {
@@ -64,7 +64,7 @@ export default {
       }
     })
     if (flag === true) {
-      // used in console developer tools:(ctrl + shift + i) browser
+      // used in console developer tools:(ctrl + shift + i) google browser
       console.log('playlist already found: ' + holder)
     }
     //
