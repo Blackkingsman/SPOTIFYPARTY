@@ -1,7 +1,7 @@
-import Queue from './Queue.js'
+import Queue from './Queue'
 import { fireDb } from '~/plugins/firebase.js'
 
-export default class Session {
+class Session {
   currentQueue = new Queue()
   constructor (createdSession) {
     this.sessionID = createdSession
@@ -24,4 +24,4 @@ export default class Session {
     await this.currentQueue.addPlaylist(this.sessionID, userID, track)
   }
 }
-export { Session }
+export default Session

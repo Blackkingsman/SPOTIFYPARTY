@@ -53,22 +53,36 @@ export default {
       user: 'logan234'
     }
   },
-  async created () {
+  async mounted () {
     const sessionref = fireDb.collection('sessions')
     await sessionref.where('result', '==', this.$route.params.id).onSnapshot((data) => {
       this.db = []
       this.songs = []
       this.queue = []
       this.items = []
-      data.forEach((track) => {
-        this.db.push(track.data())
-      })
-      this.db[0].playlist.forEach((item) => {
-        this.songs.push(item)
-      })
-      this.songs.forEach((item) => {
-        this.items.push({ User: item.uid, Album: item.track.track_album, Song: item.track.track_name, 'Album Cover': 'https://upload.wikimedia.org/wikipedia/en/c/cd/Trippie_Redd_-_%21.png', Artist: item.track.artist })
-      })
+      if (data) {
+        data.forEach((track) => {
+          this.db.push(track.data())
+        })
+        if (this.db[0].playlist) {
+          this.db[0].playlist.forEach((item) => {
+            this.songs.push(item)
+          })
+        }
+        if (this.songs) {
+          this.songs.forEach((item) => {
+            this.items.push({
+              User: item.uid,
+              Album: item.track.track_album,
+              Song: item.track.track_name,
+              'Album Cover': 'https://upload.wikimedia.org/wikipedia/en/c/cd/Trippie_Redd_-_%21.png',
+              Artist: item.track.artist
+            })
+          })
+        }
+      } else {
+        this.items = []
+      }
     })
   },
   methods: {
