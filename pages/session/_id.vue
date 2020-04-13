@@ -47,40 +47,77 @@ export default {
   },
   async mounted () {
     const req = new XMLHttpRequest()
-    const retrievePlaylist = new XMLHttpRequest()
-    const name = this.route
-    const snapshot = await fireDb.collection('sessions').where('result', '==', name).get()
+    const name = this.route // this is the sessionid found in the URL
+    const snapshot = await
+    fireDb
+      .collection('sessions')
+      .where('result', '==', name).get() // used to check if playlistid is already set
     const holder = []
-    let flag = true
+    let flag = true // will be used later to see if playlist already exists
     snapshot.forEach((item) => {
+      // checks to see if the item is undefined or not set flag false if undefined
       if (typeof item.data().playlistid === 'undefined') {
         flag = false
       } else {
+        // if item is defined this means that there is a current playlist on spotify
         holder.push(item.data().playlistid)
       }
     })
-    console.log('playlist already found: ' + holder)
-    retrievePlaylist.open('get', 'https://api.spotify.com/v1/users/tphillips24-us/playlists', true)
-    retrievePlaylist.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem('spotify-access-token').toString().trim())
-    retrievePlaylist.setRequestHeader('Content-Type', 'application/json')
-    retrievePlaylist.send()
+    if (flag === true) {
+      // used in console developer tools:(ctrl + shift + i) browser
+      console.log('playlist already found: ' + holder)
+    }
+    //
+    // this function is used to dectect change on the request
+    //
     req.onreadystatechange = async function () {
       if (req.readyState === 4) {
+        //
+        // 4 means it responded
+        // here checking to see if i got any errors
+        // if its within this range no errors detected
+        //
         if (req.status >= 200 && req.status <= 300) {
           console.log('success')
+          //
+          // this will take the response from the api and store it
+          //
           this.responses = JSON.parse(req.responseText)
           console.log(name)
+          //
+          // once the response is stored we can pick out the fields we need
+          // here i grabbed the playlistid from the creation
+          // and stored it on the firebase for the current session
+          //
           await fireDb.collection('sessions').doc(name).update({ playlistid: this.responses.id })
         } else {
+          // errors were detected view dev tools
           console.log('failure')
         }
       }
     }
-    if (flag === false) {
+    if (flag === false) { // if playlist is not defined on firebase create playlist on spotify
       console.log('playlist not found! adding playlist to spotify')
+      //
+      // open http request (method: ,url: https://api.spotify.com/v1/users/{user_id}/playlists, async:)
+      //
       req.open('post', 'https://api.spotify.com/v1/users/tphillips24-us/playlists', true)
-      req.setRequestHeader('Authorization', 'Bearer ' + localStorage.getItem('spotify-access-token').toString().trim())
+      //
+      // set header for use this format make sure to get access token I used
+      // trim() so there were no trailing or beginning spaces
+      //
+      req.setRequestHeader('Authorization', 'Bearer ' +
+        localStorage.getItem('spotify-access-token')
+          .toString().trim())
+      //
+      // set Content-Type to application/json this can be found in spotify documentation
+      //
       req.setRequestHeader('Content-Type', 'application/json')
+      //
+      // make sure to send data with JSON.stringify()
+      // data: {name:,public,description}
+      // there are more fields that are optional you can add to data {}
+      //
       req.send(JSON.stringify(this.data))
     }
   },
