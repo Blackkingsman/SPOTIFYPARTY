@@ -8,7 +8,7 @@
       <div>{{ responses }}</div>
       <div class="queue">
         <Tablepage />
-        <b-button @click="addTrack">
+        <b-button @click="addfireDB">
           Add Track
         </b-button>
       </div>
@@ -705,22 +705,8 @@ export default {
       // track: {track_id, track_title, track_artist, track_album}
       await this.session.addtoQueue(name, track)
     },
-    async addTrack () {
-      console.log('made it')
-      const req = new XMLHttpRequest()
-      const snapshot = await
-      fireDb
-        .collection('sessions')
-        .where('result', '==', this.$route.params.id)
-        .get() // used to check if playlistid is already set
-      const holder = []
+    async addfireDB () {
       const albumholder = []
-      let flag = true // will be used later to see if playlist already exists
-      // get one Artist name this.jsonTracks[0].album.artists[0].name
-      // get song name this.jsonTracks[0].name
-      // get song Album name this.jsonTracks[0].album.name
-      // get album img_URL this.jsonTracks[0].album.images[0].url
-      // get song uri this.jsonTracks[0].uri)
       this.jsonTracks.forEach((album) => {
         albumholder.push(album)
       })
@@ -735,8 +721,27 @@ export default {
         }
         await this.addmember('bob', song)
         song = {}
+        await this.addTrack(this.jsonTracks[i].uri)
       }
-
+    },
+    async addTrack (uri) {
+      this.songuri = {
+        uris: [uri]
+      }
+      console.log('made it')
+      const req = new XMLHttpRequest()
+      const snapshot = await
+      fireDb
+        .collection('sessions')
+        .where('result', '==', this.$route.params.id)
+        .get() // used to check if playlistid is already set
+      const holder = []
+      let flag = true // will be used later to see if playlist already exists
+      // get one Artist name this.jsonTracks[0].album.artists[0].name
+      // get song name this.jsonTracks[0].name
+      // get song Album name this.jsonTracks[0].album.name
+      // get album img_URL this.jsonTracks[0].album.images[0].url
+      // get song uri this.jsonTracks[0].uri)
       snapshot.forEach((item) => {
         // checks to see if the item is undefined or not. set flag false if undefined
         if (typeof item.data().playlistid === 'undefined') {
