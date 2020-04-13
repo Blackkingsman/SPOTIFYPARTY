@@ -7,23 +7,31 @@ export default class Queue {
   //  userID
   // ]
   constructor () {
-    this.playlist = []
+    this.oplaylist = []
   }
 
-  async getdbQueue (sessionID) {
-    const snapshot = await fireDb.collection('sessions').where('result', '==', sessionID).get()
-    this.playlist = []
-    snapshot.forEach((doc) => {
-      this.playlist.push(doc.data().playlist)
-    })
-  }
+  // async getdbQueue (sessionID) {
+  // const snapshot = await fireDb.collection('sessions').where('result', '==', sessionID).get()
+  // this.oplaylist = []
+  // const db = []
+  // const songs = []
+  // snapshot.forEach((track) => {
+  //  db.push(track.data())
+  // })
+  // db[0].playlist.forEach((item) => {
+  //  songs.push(item)
+  // })
+  // songs.forEach((item) => {
+  //  this.oplaylist({ uid: item.uid, track: item.track, time: item.time })
+  // })
+  // }
 
   async addPlaylist (sessionID, userID, track) {
     const timestamp = Math.floor((new Date()).getTime() / 1000)
-    this.getdbQueue(sessionID)
-    this.playlist.push({ uid: userID, track, time: timestamp })
+    //await this.getdbQueue(sessionID)
+    this.oplaylist.push({ uid: userID, track, time: timestamp })
     // add to database
-    await fireDb.collection('sessions').doc(sessionID).update({ playlist: this.playlist })
+    await fireDb.collection('sessions').doc(sessionID).update({ playlist: this.oplaylist })
     // add to spotify playlist
   }
 
