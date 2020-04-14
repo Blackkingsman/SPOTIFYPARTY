@@ -50,7 +50,7 @@ export default {
       items: [],
       columns: ['No.', 'User', 'Album Cover', 'Album', 'Song', 'Artist', 'Controls'],
       slcQuality: null,
-      user: 'logan234'
+      user: 'bob'
     }
   },
   async created () {
