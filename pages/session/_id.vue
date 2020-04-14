@@ -624,7 +624,45 @@ export default {
   },
   async mounted () {
     const req = new XMLHttpRequest()
+    const reqUser = new XMLHttpRequest()
     const name = this.route // this is the sessionid found in the URL
+    /*
+      pull User's profile information
+      we will do this with the reqUser we'll
+      need another bool flag so that the playlist can get created for the current user
+
+     */
+    let setUserid = ''
+    reqUser.onreadystatechange = function () {
+      if (reqUser.readyState === 4) {
+        //
+        // 4 means it responded
+        // here checking to see if i got any errors
+        // if its within this range no errors detected
+        //
+        if (reqUser.status >= 200 && reqUser.status <= 300) {
+          console.log('success')
+          //
+          // this will take the response from the api and store it
+          //
+          const responses = JSON.parse(reqUser.responseText)
+          setUserid = responses.id
+          //
+          // once the response is stored we can pick out the fields we need
+          // here i grabbed the playlistid from the creation
+          // and stored it on the firebase for the current session
+          //
+        } else {
+          // errors were detected view dev tools
+          console.log('failure')
+        }
+      }
+    }
+    reqUser.open('GET', 'https://api.spotify.com/v1/me', true)
+    reqUser.setRequestHeader('Authorization', 'Bearer ' +
+      localStorage.getItem('spotify-access-token')
+        .toString().trim())
+    reqUser.send()
     const snapshot = await
     fireDb
       .collection('sessions')
@@ -679,7 +717,7 @@ export default {
       //
       // open http request (method: ,url: https://api.spotify.com/v1/users/{user_id}/playlists, async:)
       //
-      req.open('post', 'https://api.spotify.com/v1/users/tphillips24-us/playlists', true)
+      req.open('post', 'https://api.spotify.com/v1/users/' + setUserid + '/playlists', true)
       //
       // set header for use this format make sure to get access token I used
       // trim() so there were no trailing or beginning spaces
@@ -751,16 +789,17 @@ export default {
           holder.push(item.data().playlistid)
         }
       })
-
-      if (req.readyState === 4) {
-        if (req.status >= 200 && req.status <= 300) {
-          console.log('successfully added track!')
-        } else {
-          console.log('failed to add track!')
+      req.onreadystatechange = function () {
+        if (req.readyState === 4) {
+          if (req.status >= 200 && req.status <= 300) {
+            console.log('successfully added track!')
+          } else {
+            console.log('failed to add track!')
+          }
         }
       }
       if (flag === true) {
-        req.open('post', '\thttps://api.spotify.com/v1/playlists/' + holder[0].toString().trim() + '/tracks', true)
+        req.open('post', 'https://api.spotify.com/v1/playlists/' + holder[0].toString().trim() + '/tracks', true)
         req.setRequestHeader('Authorization', 'Bearer ' +
           localStorage.getItem('spotify-access-token')
             .toString().trim())

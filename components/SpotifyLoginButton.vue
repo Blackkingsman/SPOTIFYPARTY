@@ -10,7 +10,7 @@ export default {
     redirectToSpotify () {
       const clientId = '944d6c120afe41179ddcf4c1d9a874b2'
       const redirectUri = encodeURIComponent(`${location.origin}/callback/`)
-      const scopes = ['streaming', 'playlist-modify-public', 'playlist-modify-private ']
+      const scopes = ['streaming', 'playlist-modify-public', 'playlist-modify-private ', 'user-read-private', 'user-read-email']
       let uri = 'https://accounts.spotify.com/authorize'
       uri += `?client_id=${clientId}`
       uri += `&redirect_uri=${redirectUri}`

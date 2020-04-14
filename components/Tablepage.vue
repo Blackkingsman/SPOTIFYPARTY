@@ -86,8 +86,81 @@ export default {
     })
   },
   methods: {
-    removeElement (index) {
-      this.db.splice(index, 1)
+    async removeElement (index) {
+      const itemholder = []
+      const playlistholder = []
+      const name = this.$route.params.id
+      const snapshot1 = await fireDb.collection('sessions')
+        .where('result', '==', this.$route.params.id)
+        .get() // used to check if playlistid is already set
+      const holder = []
+      let flag = true // will be used later to see if playlist already exists
+      // get one Artist name this.jsonTracks[0].album.artists[0].name
+      // get song name this.jsonTracks[0].name
+      // get song Album name this.jsonTracks[0].album.name
+      // get album img_URL this.jsonTracks[0].album.images[0].url
+      // get song uri this.jsonTracks[0].uri)
+      snapshot1.forEach((item) => {
+        // checks to see if the item is undefined or not. set flag false if undefined
+        if (typeof item.data().playlistid === 'undefined') {
+          flag = false
+        } else {
+          // if item is defined this means that there is a current playlist on spotify
+          holder.push(item.data().playlistid)
+        }
+      })
+      if (flag === false) {
+        console.log('Playlist Undefined')
+      }
+      const snapshot = await
+      fireDb
+        .collection('sessions')
+        .where('result', '==', this.$route.params.id)
+        .get()
+      snapshot.forEach((item) => {
+        itemholder.push(item.data())
+      })
+      itemholder.forEach((item) => {
+        playlistholder.push((item))
+      })
+      const newArray = playlistholder[0].playlist.slice()
+      let removeuri = ''
+      let removeindex = -1
+      console.log(newArray)
+      for (let i = 0; i < playlistholder[0].playlist.length; i++) {
+        if (playlistholder[0].playlist[i].uid === this.user && i === index) {
+          removeindex = i
+          removeuri = playlistholder[0].playlist[i].track.uri
+        }
+      }
+      playlistholder[0].playlist.splice(removeindex, 1)
+      console.log(playlistholder[0].playlist)
+      console.log(removeuri + ' ' + removeindex.toString())
+      const req = new XMLHttpRequest()
+      req.onreadystatechange = async function () {
+        if (req.readyState === 4) {
+          if (req.status >= 200 && req.status <= 300) {
+            console.log('successfully removed song from spotify. attempting remove from firebase')
+            const oplaylist = []
+            for (let i = 0; i < playlistholder[0].playlist.length; i++) {
+              oplaylist.push(playlistholder[0].playlist[i])
+            }
+            console.log(oplaylist)
+            await fireDb.collection('sessions').doc(name).update({ playlist: oplaylist })
+          } else {
+            console.log('failed to remove track')
+          }
+        }
+      }
+      const data = {
+        tracks: [{ uri: removeuri, positions: [removeindex] }]
+      }
+      req.open('DELETE', 'https://api.spotify.com/v1/playlists/' + holder[0].toString().trim() + '/tracks', true)
+      req.setRequestHeader('Authorization', 'Bearer ' +
+        localStorage.getItem('spotify-access-token')
+          .toString().trim())
+      req.setRequestHeader('Content-Type', 'application/json')
+      req.send(JSON.stringify(data))
     }
 
   }
