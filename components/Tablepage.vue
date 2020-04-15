@@ -21,7 +21,7 @@
                 <small>{{ item[column] }}</small>
               </h5>
               <img v-if="column=== 'Album Cover'" class="rounded-corners" :src="item['Album Cover'].valueOf()" style="width:75px;height:75px;">
-              <b-button v-if="item['User'].valueOf() === GET_USER && column ==='Controls'" variant="danger" @click="removeElement (index)">
+              <b-button v-if="item['User'].valueOf() === GET_DISPLAY && column ==='Controls'" variant="danger" @click="removeElement (index)">
                 Remove
               </b-button>
             </td>
@@ -37,7 +37,7 @@ import { mapGetters } from 'vuex'
 import { fireDb } from '../plugins/firebase'
 export default {
   computed: {
-    ...mapGetters(['GET_USER'])
+    ...mapGetters(['GET_USER', 'GET_DISPLAY'])
   },
   data () {
     return {
@@ -67,7 +67,7 @@ export default {
       this.items = []
       this.db.push(data.data())
       console.log()
-      if (this.db[0].playlist.length !== 0) {
+      if (typeof this.db[0].playlist.length !== 'undefined') {
         this.db[0].playlist.forEach((item) => {
           this.songs.push(item)
         })
@@ -123,7 +123,7 @@ export default {
       let removeindex = -1
       console.log('new Array')
       console.log(newArray)
-      const userid = this.$store.getters.GET_USER
+      const userid = this.$store.getters.GET_DISPLAY
       for (let i = 0; i < playlistholder[0].playlist.length; i++) {
         if (playlistholder[0].playlist[i].uid === userid && i === index) {
           removeindex = i
@@ -152,10 +152,10 @@ export default {
       const data = {
         tracks: [{ uri: removeuri, positions: [removeindex] }]
       }
+      const gettoken = await fireDb.collection('sessions').doc(this.$route.params.id).get()
+      const tokenid = gettoken.data().apiToken
       req.open('DELETE', 'https://api.spotify.com/v1/playlists/' + holder[0].toString().trim() + '/tracks', true)
-      req.setRequestHeader('Authorization', 'Bearer ' +
-        localStorage.getItem('spotify-access-token')
-          .toString().trim())
+      req.setRequestHeader('Authorization', 'Bearer ' + tokenid)
       req.setRequestHeader('Content-Type', 'application/json')
       req.send(JSON.stringify(data))
     }
