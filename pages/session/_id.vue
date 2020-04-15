@@ -803,12 +803,12 @@ export default {
           }
         }
       }
+      const gettoken = await fireDb.collection('sessions').doc(this.$route.params.id).get()
+      const tokenid = gettoken.data().apiToken
       if (flag === true) {
         console.log('attempting to add track to spotify')
         req.open('post', 'https://api.spotify.com/v1/playlists/' + holder[0].toString().trim() + '/tracks', true)
-        req.setRequestHeader('Authorization', 'Bearer ' +
-          localStorage.getItem('spotify-access-token')
-            .toString().trim())
+        req.setRequestHeader('Authorization', 'Bearer ' + tokenid)
         req.setRequestHeader('Content-Type', 'application/json')
         req.send(JSON.stringify(this.songuri))
       }
