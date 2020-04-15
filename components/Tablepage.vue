@@ -21,7 +21,7 @@
                 <small>{{ item[column] }}</small>
               </h5>
               <img v-if="column=== 'Album Cover'" class="rounded-corners" :src="item['Album Cover'].valueOf()" style="width:75px;height:75px;">
-              <b-button v-if="item['User'].valueOf() === user && column ==='Controls'" variant="danger" @click="removeElement (index)">
+              <b-button v-if="item['User'].valueOf() === GET_USER && column ==='Controls'" variant="danger" @click="removeElement (index)">
                 Remove
               </b-button>
             </td>
@@ -33,8 +33,12 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import { fireDb } from '../plugins/firebase'
 export default {
+  computed: {
+    ...mapGetters(['GET_USER'])
+  },
   data () {
     return {
       count: 0,
@@ -127,8 +131,9 @@ export default {
       let removeuri = ''
       let removeindex = -1
       console.log(newArray)
+      const userid = this.$store.getters.GET_USER
       for (let i = 0; i < playlistholder[0].playlist.length; i++) {
-        if (playlistholder[0].playlist[i].uid === this.user && i === index) {
+        if (playlistholder[0].playlist[i].uid === userid && i === index) {
           removeindex = i
           removeuri = playlistholder[0].playlist[i].track.uri
         }

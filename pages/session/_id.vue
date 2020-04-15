@@ -11,18 +11,66 @@
         <b-button @click="addfireDB">
           Add Track
         </b-button>
+        <h1>{{ user_id }}</h1>
+        <div />
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import { mapState, mapGetters } from 'vuex'
 import Tablepage from '../../components/Tablepage'
 import Navbar from '../../components/Navbar.vue'
 import currentSession from '../../components/Session'
 import Session from '../../model/Session'
 import { fireDb } from '~/plugins/firebase'
 export default {
+  fetch ({ store }) {
+    const reqUser = new XMLHttpRequest()
+    /*
+     pull User's profile information
+     we will do this with the reqUser we'll
+     need another bool flag so that the playlist can get created for the current user
+
+    */
+    let setUserid = ''
+    reqUser.onreadystatechange = function () {
+      if (reqUser.readyState === 4) {
+        //
+        // 4 means it responded
+        // here checking to see if i got any errors
+        // if its within this range no errors detected
+        //
+        if (reqUser.status >= 200 && reqUser.status <= 300) {
+          console.log('success user found')
+          //
+          // this will take the response from the api and store it
+          //
+          const responses = JSON.parse(reqUser.responseText)
+          setUserid = responses.id
+          store.commit('SET_USERID', setUserid)
+          //
+          // once the response is stored we can pick out the fields we need
+          // here i grabbed the playlistid from the creation
+          // and stored it on the firebase for the current session
+          //
+        } else {
+          // errors were detected view dev tools
+          console.log('failed to pull user id')
+        }
+      }
+    }
+    reqUser.open('GET', 'https://api.spotify.com/v1/me', true)
+    reqUser.setRequestHeader('Authorization', 'Bearer ' +
+      localStorage.getItem('spotify-access-token')
+        .toString().trim())
+    reqUser.send()
+  },
+  computed: {
+    ...mapState(['user_id']),
+    ...mapGetters(['GET_USER'])
+  },
   name: 'App',
   components: {
     Tablepage,
@@ -35,11 +83,11 @@ export default {
       input: '',
       errors: [],
       baseuri: 'https://api.spotify.com/v1',
-      user_id: 'tphillips-24',
       data: {
         name: this.$route.params.id,
         description: 'Description',
-        public: true
+        public: false,
+        collaborative: true
       },
       songuri: {
         uris: ['spotify:track:40shLUuowIKHOAc7pPFpky', 'spotify:track:4iV5W9uYEdYUVa79Axb7Rh', 'spotify:track:1301WleyT98MSxVHPZCA6M']
@@ -624,45 +672,7 @@ export default {
   },
   async mounted () {
     const req = new XMLHttpRequest()
-    const reqUser = new XMLHttpRequest()
     const name = this.route // this is the sessionid found in the URL
-    /*
-      pull User's profile information
-      we will do this with the reqUser we'll
-      need another bool flag so that the playlist can get created for the current user
-
-     */
-    let setUserid = ''
-    reqUser.onreadystatechange = function () {
-      if (reqUser.readyState === 4) {
-        //
-        // 4 means it responded
-        // here checking to see if i got any errors
-        // if its within this range no errors detected
-        //
-        if (reqUser.status >= 200 && reqUser.status <= 300) {
-          console.log('success')
-          //
-          // this will take the response from the api and store it
-          //
-          const responses = JSON.parse(reqUser.responseText)
-          setUserid = responses.id
-          //
-          // once the response is stored we can pick out the fields we need
-          // here i grabbed the playlistid from the creation
-          // and stored it on the firebase for the current session
-          //
-        } else {
-          // errors were detected view dev tools
-          console.log('failure')
-        }
-      }
-    }
-    reqUser.open('GET', 'https://api.spotify.com/v1/me', true)
-    reqUser.setRequestHeader('Authorization', 'Bearer ' +
-      localStorage.getItem('spotify-access-token')
-        .toString().trim())
-    reqUser.send()
     const snapshot = await
     fireDb
       .collection('sessions')
@@ -717,7 +727,9 @@ export default {
       //
       // open http request (method: ,url: https://api.spotify.com/v1/users/{user_id}/playlists, async:)
       //
-      req.open('post', 'https://api.spotify.com/v1/users/' + setUserid + '/playlists', true)
+      const name = this.$store.getters.GET_USER
+      console.log(name)
+      req.open('post', 'https://api.spotify.com/v1/users/' + name + '/playlists', true)
       //
       // set header for use this format make sure to get access token I used
       // trim() so there were no trailing or beginning spaces
@@ -757,7 +769,8 @@ export default {
           track_name: this.jsonTracks[i].name,
           artist_name: this.jsonTracks[i].album.artists[0].name
         }
-        await this.addmember('bob', song)
+        const name = this.$store.getters.GET_USER
+        await this.addmember(name, song)
         song = {}
         await this.addTrack(this.jsonTracks[i].uri)
       }
