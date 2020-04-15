@@ -10,7 +10,7 @@
 
     <b-collapse id="nav-collapse" is-nav>
       <b-navbar-nav>
-        <b-nav-item v-if="onHomePage" @click="makeID">
+        <b-nav-item v-if="onHomePage" @click="makeId">
           Create Session
         </b-nav-item>
         <b-nav-item v-if="onHomePage" v-b-modal.join-modal>
@@ -40,10 +40,10 @@
 
 <script>
 
+import * as sessionController from './SessionButtons/sessionController'
 import JoinModal from './SessionButtons/Join'
 import InviteButton from './SessionButtons/Invite'
 import LeaveButton from './SessionButtons/Leave'
-import { fireDb } from '~/plugins/firebase.js'
 
 export default {
   name: 'EditButton',
@@ -71,7 +71,6 @@ export default {
   },
 
   methods: {
-
     logout () {
       localStorage.removeItem('spotify-access-token')
     },
@@ -85,36 +84,8 @@ export default {
       document.getElementById('spotifyLogin').click()
     },
 
-    createID () {
-      const length = 4
-      let result = ''
-      const characters =
-        'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
-      const charactersLength = characters.length
-      for (let i = 0; i < length; i++) {
-        result += characters.charAt(
-          Math.floor(Math.random() * charactersLength)
-        )
-      }
-      return result
-    },
-
-    async makeID () {
-      let result = this.createID()
-      // console.log(result)
-      const ref = fireDb.collection('sessions').doc(result)
-      const document = { result }
-      // console.log(document)
-      try {
-        await ref.get().then((doc) => {
-          if (doc.exists) {
-            result = this.createID()
-          } else {
-            ref.set(document)
-            this.$router.push(`/session/${result}`)
-          }
-        })
-      } catch (e) {}
+    async makeId () {
+      await sessionController.makeId(this.$router)
     }
   }
 }
