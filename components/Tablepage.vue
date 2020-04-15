@@ -59,43 +59,38 @@ export default {
   },
   async created () {
     const sessionref = fireDb.collection('sessions')
-    await sessionref.where('result', '==', this.$route.params.id).onSnapshot((data) => {
+    const names = this.$route.params.id
+    await sessionref.doc(names).onSnapshot((data) => {
       this.db = []
       this.songs = []
       this.queue = []
       this.items = []
-      if (data) {
-        data.forEach((track) => {
-          this.db.push(track.data())
+      this.db.push(data.data())
+      console.log()
+      if (this.db[0].playlist.length !== 0) {
+        this.db[0].playlist.forEach((item) => {
+          this.songs.push(item)
         })
-        if (this.db[0].playlist) {
-          this.db[0].playlist.forEach((item) => {
-            this.songs.push(item)
+      }
+      if (this.songs.length !== 0) {
+        this.songs.forEach((item) => {
+          this.items.push({
+            User: item.uid,
+            Album: item.track.album_name,
+            Song: item.track.track_name,
+            'Album Cover': item.track.url,
+            Artist: item.track.artist_name
           })
-        }
-        if (this.songs) {
-          this.songs.forEach((item) => {
-            this.items.push({
-              User: item.uid,
-              Album: item.track.album_name,
-              Song: item.track.track_name,
-              'Album Cover': item.track.url,
-              Artist: item.track.artist_name
-            })
-          })
-        }
-      } else {
-        this.items = []
+        })
       }
     })
   },
   methods: {
     async removeElement (index) {
-      const itemholder = []
       const playlistholder = []
       const name = this.$route.params.id
       const snapshot1 = await fireDb.collection('sessions')
-        .where('result', '==', this.$route.params.id)
+        .doc(this.$route.params.id)
         .get() // used to check if playlistid is already set
       const holder = []
       let flag = true // will be used later to see if playlist already exists
@@ -104,32 +99,29 @@ export default {
       // get song Album name this.jsonTracks[0].album.name
       // get album img_URL this.jsonTracks[0].album.images[0].url
       // get song uri this.jsonTracks[0].uri)
-      snapshot1.forEach((item) => {
-        // checks to see if the item is undefined or not. set flag false if undefined
-        if (typeof item.data().playlistid === 'undefined') {
-          flag = false
-        } else {
-          // if item is defined this means that there is a current playlist on spotify
-          holder.push(item.data().playlistid)
-        }
-      })
+      // checks to see if the item is undefined or not. set flag false if undefined
+      if (typeof snapshot1.data().playlistid === 'undefined') {
+        flag = false
+      } else {
+        // if item is defined this means that there is a current playlist on spotify
+        holder.push(snapshot1.data().playlistid)
+      }
       if (flag === false) {
         console.log('Playlist Undefined')
+      } else {
+        console.log('Playlist defined processing... Delete')
       }
       const snapshot = await
       fireDb
         .collection('sessions')
-        .where('result', '==', this.$route.params.id)
+        .doc(this.$route.params.id)
         .get()
-      snapshot.forEach((item) => {
-        itemholder.push(item.data())
-      })
-      itemholder.forEach((item) => {
-        playlistholder.push((item))
-      })
-      const newArray = playlistholder[0].playlist.slice()
+      playlistholder.push(snapshot.data())
+      console.log(playlistholder[0].playlist)
+      const newArray = playlistholder[0].playlist.splice()
       let removeuri = ''
       let removeindex = -1
+      console.log('new Array')
       console.log(newArray)
       const userid = this.$store.getters.GET_USER
       for (let i = 0; i < playlistholder[0].playlist.length; i++) {
@@ -139,7 +131,7 @@ export default {
         }
       }
       playlistholder[0].playlist.splice(removeindex, 1)
-      console.log(playlistholder[0].playlist)
+      console.log(playlistholder[0])
       console.log(removeuri + ' ' + removeindex.toString())
       const req = new XMLHttpRequest()
       req.onreadystatechange = async function () {

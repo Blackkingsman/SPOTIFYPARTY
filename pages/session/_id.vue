@@ -49,6 +49,7 @@ export default {
           //
           const responses = JSON.parse(reqUser.responseText)
           setUserid = responses.id
+          store.commit('SET_DISPLAY', responses.display_name)
           store.commit('SET_USERID', setUserid)
           //
           // once the response is stored we can pick out the fields we need
@@ -68,8 +69,8 @@ export default {
     reqUser.send()
   },
   computed: {
-    ...mapState(['user_id']),
-    ...mapGetters(['GET_USER'])
+    ...mapState(['user_id', 'display_name']),
+    ...mapGetters(['GET_USER', 'GET_DISPLAY'])
   },
   name: 'App',
   components: {
@@ -676,22 +677,20 @@ export default {
     const snapshot = await
     fireDb
       .collection('sessions')
-      .where('result', '==', name)
+      .doc(name)
       .get() // used to check if playlistid is already set
     const holder = []
+    holder.push(snapshot.data().playlistid)
     let flag = true // will be used later to see if playlist already exists
-    snapshot.forEach((item) => {
-      // checks to see if the item is undefined or not. set flag false if undefined
-      if (typeof item.data().playlistid === 'undefined') {
-        flag = false
-      } else {
-        // if item is defined this means that there is a current playlist on spotify
-        holder.push(item.data().playlistid)
-      }
-    })
+    if (typeof snapshot.data().playlistid === 'undefined') {
+      flag = false
+    } else {
+      // if item is defined this means that there is a current playlist on spotify
+      holder.push(snapshot.data().playlistid)
+    }
     if (flag === true) {
       // used in console developer tools:(ctrl + shift + i) google browser
-      console.log('playlist already found: ' + holder)
+      console.log('playlist already found: ' + holder[0])
     }
     //
     // this function is used to dectect change on the request
@@ -704,7 +703,7 @@ export default {
         // if its within this range no errors detected
         //
         if (req.status >= 200 && req.status <= 300) {
-          console.log('success')
+          console.log('Playlist Successfully Added!!')
           //
           // this will take the response from the api and store it
           //
@@ -769,7 +768,7 @@ export default {
           track_name: this.jsonTracks[i].name,
           artist_name: this.jsonTracks[i].album.artists[0].name
         }
-        const name = this.$store.getters.GET_USER
+        const name = this.$store.getters.GET_DISPLAY
         await this.addmember(name, song)
         song = {}
         await this.addTrack(this.jsonTracks[i].uri)
@@ -784,24 +783,17 @@ export default {
       const snapshot = await
       fireDb
         .collection('sessions')
-        .where('result', '==', this.$route.params.id)
+        .doc(this.$route.params.id)
         .get() // used to check if playlistid is already set
       const holder = []
+      holder.push(snapshot.data().playlistid)
       let flag = true // will be used later to see if playlist already exists
-      // get one Artist name this.jsonTracks[0].album.artists[0].name
-      // get song name this.jsonTracks[0].name
-      // get song Album name this.jsonTracks[0].album.name
-      // get album img_URL this.jsonTracks[0].album.images[0].url
-      // get song uri this.jsonTracks[0].uri)
-      snapshot.forEach((item) => {
-        // checks to see if the item is undefined or not. set flag false if undefined
-        if (typeof item.data().playlistid === 'undefined') {
-          flag = false
-        } else {
-          // if item is defined this means that there is a current playlist on spotify
-          holder.push(item.data().playlistid)
-        }
-      })
+      if (typeof snapshot.data().playlistid === 'undefined') {
+        flag = false
+      } else {
+        // if item is defined this means that there is a current playlist on spotify
+        holder.push(snapshot.data().playlistid)
+      }
       req.onreadystatechange = function () {
         if (req.readyState === 4) {
           if (req.status >= 200 && req.status <= 300) {
@@ -812,6 +804,7 @@ export default {
         }
       }
       if (flag === true) {
+        console.log('attempting to add track to spotify')
         req.open('post', 'https://api.spotify.com/v1/playlists/' + holder[0].toString().trim() + '/tracks', true)
         req.setRequestHeader('Authorization', 'Bearer ' +
           localStorage.getItem('spotify-access-token')

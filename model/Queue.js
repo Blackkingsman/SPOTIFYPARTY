@@ -12,25 +12,25 @@ class Queue {
   }
 
   async getdbQueue (sessionID) {
-    const snapshot = await fireDb.collection('sessions').where('result', '==', sessionID).get()
+    const snapshot = await fireDb.collection('sessions').doc(sessionID).get()
     this.oplaylist = []
     const db = []
-    const songs = []
-    if (snapshot) {
-      snapshot.forEach((track) => {
-        db.push(track.data())
+    db.push(snapshot.data())
+    console.log(db[0].playlist)
+    if (db[0].playlist.length !== 0) {
+      db[0].playlist.forEach((item) => {
+        this.oplaylist.push({
+          time: item.time,
+          track: {
+            album_name: item.track.album_name,
+            artist_name: item.track.artist_name,
+            track_name: item.track.track_name,
+            uri: item.track.uri,
+            url: item.track.url
+          },
+          uid: item.uid
+        })
       })
-      if (db[0].playlist) {
-        db[0].playlist.forEach((item) => {
-          songs.push(item)
-        })
-      }
-
-      if (songs) {
-        songs.forEach((item) => {
-          this.oplaylist.push({ uid: item.uid, track: item.track, time: item.time })
-        })
-      }
     } else {
       this.oplaylist = []
     }
