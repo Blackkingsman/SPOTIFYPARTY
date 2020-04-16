@@ -13,6 +13,7 @@
         </b-button>
         <h1>{{ user_id }}</h1>
         <div />
+        <SearchButton />
       </div>
     </div>
   </div>
@@ -24,6 +25,7 @@ import Tablepage from '../../components/Tablepage'
 import Navbar from '../../components/Navbar.vue'
 import currentSession from '../../components/Session'
 import Session from '../../model/Session'
+import SearchButton from '../../components/SessionButtons/Search'
 import { fireDb } from '~/plugins/firebase'
 export default {
   fetch ({ store }) {
@@ -72,10 +74,10 @@ export default {
     ...mapState(['user_id', 'display_name']),
     ...mapGetters(['GET_USER', 'GET_DISPLAY'])
   },
-  name: 'App',
   components: {
     Tablepage,
     Navbar,
+    SearchButton,
     currentSession
   },
   data () {
