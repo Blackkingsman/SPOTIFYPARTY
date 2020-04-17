@@ -1,7 +1,9 @@
+
 export const state = () => ({
   user_id: 'default',
   display_name: 'displayname',
-  tokenid: 'token'
+  ishidden: false,
+  jsonResponse: []
 })
 
 export const mutations = {
@@ -11,8 +13,11 @@ export const mutations = {
   SET_DISPLAY: (state, displayname) => {
     state.display_name = displayname
   },
-  SET_TOKEN: (state, tokenid) => {
-    state.tokenid = tokenid
+  SET_HIDDEN: (state, hidden) => {
+    state.ishidden = hidden
+  },
+  SET_RESPONSE: (state, response) => {
+    state.jsonResponse = response
   }
 }
 export const getters = {
@@ -22,7 +27,10 @@ export const getters = {
   GET_DISPLAY: (state) => {
     return state.display_name
   },
-  GET_TOKEN: (state) => {
-    return state.tokenid
+  GET_HIDDEN: (state) => {
+    return state.ishidden
+  },
+  GET_RESPONSE: (state) => {
+    return state.jsonResponse
   }
 }

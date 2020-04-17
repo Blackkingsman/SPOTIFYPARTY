@@ -2,18 +2,16 @@
   <div id="app">
     <div><Navbar /></div>
     <div class="flex-container">
-      <div class="session">
-        <currentSession />
+      <div class ='search'>
+      <Search />
       </div>
-      <div>{{ responses }}</div>
       <div class="queue">
-        <Tablepage />
+        <Tablepage v-if="!GET_HIDDEN" />
         <b-button @click="addfireDB">
           Add Track
         </b-button>
         <h1>{{ user_id }}</h1>
         <div />
-        <SearchButton />
       </div>
     </div>
   </div>
@@ -21,70 +19,30 @@
 
 <script>
 import { mapState, mapGetters } from 'vuex'
+import Search from '../../components/SessionButtons/Search.vue'
 import Tablepage from '../../components/Tablepage'
 import Navbar from '../../components/Navbar.vue'
-import currentSession from '../../components/Session'
+/* import currentSession from '../../components/Session' */
 import Session from '../../model/Session'
-import SearchButton from '../../components/SessionButtons/Search'
+import { spotify } from '~/plugins/spotify'
 import { fireDb } from '~/plugins/firebase'
 export default {
-  fetch ({ store }) {
-    const reqUser = new XMLHttpRequest()
-    /*
-     pull User's profile information
-     we will do this with the reqUser we'll
-     need another bool flag so that the playlist can get created for the current user
-
-    */
-    let setUserid = ''
-    reqUser.onreadystatechange = function () {
-      if (reqUser.readyState === 4) {
-        //
-        // 4 means it responded
-        // here checking to see if i got any errors
-        // if its within this range no errors detected
-        //
-        if (reqUser.status >= 200 && reqUser.status <= 300) {
-          console.log('success user found')
-          //
-          // this will take the response from the api and store it
-          //
-          const responses = JSON.parse(reqUser.responseText)
-          setUserid = responses.id
-          store.commit('SET_DISPLAY', responses.display_name)
-          store.commit('SET_USERID', setUserid)
-          //
-          // once the response is stored we can pick out the fields we need
-          // here i grabbed the playlistid from the creation
-          // and stored it on the firebase for the current session
-          //
-        } else {
-          // errors were detected view dev tools
-          console.log('failed to pull user id')
-        }
-      }
-    }
-    reqUser.open('GET', 'https://api.spotify.com/v1/me', true)
-    reqUser.setRequestHeader('Authorization', 'Bearer ' +
-      localStorage.getItem('spotify-access-token')
-        .toString().trim())
-    reqUser.send()
-  },
   computed: {
     ...mapState(['user_id', 'display_name']),
-    ...mapGetters(['GET_USER', 'GET_DISPLAY'])
+    ...mapGetters(['GET_USER', 'GET_DISPLAY', 'GET_HIDDEN'])
   },
+  name: 'App',
   components: {
     Tablepage,
     Navbar,
-    SearchButton,
-    currentSession
+    Search
   },
   data () {
     return {
       session: new Session(this.$route.params.id),
       input: '',
       errors: [],
+      route: this.$route.params.id,
       baseuri: 'https://api.spotify.com/v1',
       data: {
         name: this.$route.params.id,
@@ -666,15 +624,27 @@ export default {
         track_number: 1,
         type: 'track',
         uri: 'spotify:track:1p61zyWNtBhbbAFzg4HUiq'
-
-      }],
-      found: false,
-      responses: null,
-      route: this.$route.params.id
+      }]
     }
   },
   async mounted () {
-    const req = new XMLHttpRequest()
+    console.log('hello')
+    let displayname = ''
+    let id = ''
+    const gettoken = await fireDb.collection('sessions').doc(this.$route.params.id).get()
+    const tokenid = gettoken.data().apiToken
+    spotify.setAccessToken(tokenid)
+    await spotify.getMe()
+      .then(function (data) {
+        console.log(data)
+        displayname = data.display_name
+        id = data.id
+        console.log(displayname)
+      }, function (err) {
+        console.error(err)
+      })
+    this.$store.commit('SET_DISPLAY', displayname)
+    this.$store.commit('SET_USERID', id)
     const name = this.route // this is the sessionid found in the URL
     const snapshot = await
     fireDb
@@ -694,60 +664,18 @@ export default {
       // used in console developer tools:(ctrl + shift + i) google browser
       console.log('playlist already found: ' + holder[0])
     }
-    //
-    // this function is used to dectect change on the request
-    //
-    req.onreadystatechange = async function () {
-      if (req.readyState === 4) {
-        //
-        // 4 means it responded
-        // here checking to see if i got any errors
-        // if its within this range no errors detected
-        //
-        if (req.status >= 200 && req.status <= 300) {
-          console.log('Playlist Successfully Added!!')
-          //
-          // this will take the response from the api and store it
-          //
-          this.responses = JSON.parse(req.responseText)
-          console.log(name)
-          //
-          // once the response is stored we can pick out the fields we need
-          // here i grabbed the playlistid from the creation
-          // and stored it on the firebase for the current session
-          //
-          await fireDb.collection('sessions').doc(name).update({ playlistid: this.responses.id })
-        } else {
-          // errors were detected view dev tools
-          console.log('failure')
-        }
-      }
-    }
     if (flag === false) { // if playlist is not defined on firebase create playlist on spotify
       console.log('playlist not found! adding playlist to spotify')
-      //
-      // open http request (method: ,url: https://api.spotify.com/v1/users/{user_id}/playlists, async:)
-      //
-      const name = this.$store.getters.GET_USER
+      const username = this.$store.getters.GET_USER
       console.log(name)
-      req.open('post', 'https://api.spotify.com/v1/users/' + name + '/playlists', true)
-      //
-      // set header for use this format make sure to get access token I used
-      // trim() so there were no trailing or beginning spaces
-      //
-      req.setRequestHeader('Authorization', 'Bearer ' +
-        localStorage.getItem('spotify-access-token')
-          .toString().trim())
-      //
-      // set Content-Type to application/json this can be found in spotify documentation
-      //
-      req.setRequestHeader('Content-Type', 'application/json')
-      //
-      // make sure to send data with JSON.stringify()
-      // data: {name:,public,description}
-      // there are more fields that are optional you can add to data {}
-      //
-      req.send(JSON.stringify(this.data))
+      await spotify.createPlaylist(username, this.data, async function (err, data) {
+        if (err) { console.error(err) } else {
+          await fireDb
+            .collection('sessions')
+            .doc(name)
+            .update({ playlistid: data.id })
+        }
+      })
     }
   },
   methods: {
@@ -817,7 +745,6 @@ export default {
     }
   }
 }
-
 </script>
 <style>
   .flex-container{
@@ -828,7 +755,11 @@ export default {
     width: 90% !important;
     margin-left: auto !important;
     margin-right: auto !important;
-  }
+  }.flex-container .search{
+     width: 40% !important;
+     margin-left: auto !important;
+     margin-right: auto !important;
+   }
   h4{
     color: white;
   }
