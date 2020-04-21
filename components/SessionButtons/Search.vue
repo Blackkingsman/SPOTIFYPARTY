@@ -79,7 +79,7 @@ export default {
                   document.getElementById('tablebody').innerHTML +=
                       '<tr><td><h5><small>' + item.name + '</small></h5></td> <td><h5><small>' + item.artists[0].name + '</small></h5></td> <td><h5><small>' +
                       item.album.name + '</small></h5></td><td><img src="' + item.album.images[2].url + '"/></td><td>' +
-                      '<button class="btn-outline-success">ADD</button></td></tr>'
+                      '<button type = "button" class="btn-outline-success">ADD</button></td></tr>'
                 })
                 const table = document.getElementById('example')
                 const rows = table.getElementsByTagName('tr')
@@ -91,6 +91,7 @@ export default {
                           // const cell = row.getElementsByTagName('td')[0]
                           // const id = cell.innerHTML
                           index = i - 1
+                          console.log(index)
                           const snapshot = await
                           fireDb
                             .collection('sessions')
@@ -100,11 +101,14 @@ export default {
                           let flag = true // will be used later to see if playlist already exists
                           if (typeof snapshot.data().playlistid === 'undefined') {
                             flag = false
+                            console.log('false')
                           } else {
                             // if item is defined this means that there is a current playlist on spotify
                             idholder.push(snapshot.data().playlistid)
                           }
+                          console.log(idholder[0])
                           if (flag) {
+                            console.log('hello')
                             await spotify.addTracksToPlaylist(idholder[0].toString(), [holder[index].uri], null, async function (err, responses) {
                               if (err) {
                                 console.error(err)
@@ -117,13 +121,11 @@ export default {
                                   track_name: holder[index].name,
                                   artist_name: holder[index].album.artists[0].name
                                 }
+                                input.value = null
                                 await realsession.addtoQueue(displayname, song)
                               }
                             })
                           }
-                          input.value = ''
-                          input.value.length = 0
-                          input.value = null
                         }
                       }
                   currentRow.onclick = createClickHandler(currentRow)

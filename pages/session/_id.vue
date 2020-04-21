@@ -2,8 +2,8 @@
   <div id="app">
     <div><Navbar /></div>
     <div class="flex-container">
-      <div class ='search'>
-      <Search />
+      <div class="search">
+        <Search />
       </div>
       <div class="queue">
         <Tablepage v-if="!GET_HIDDEN" />
@@ -631,7 +631,8 @@ export default {
     console.log('hello')
     let displayname = ''
     let id = ''
-    const gettoken = await fireDb.collection('sessions').doc(this.$route.params.id).get()
+    const name = this.route // this is the sessionid found in the URL
+    const gettoken = await fireDb.collection('sessions').doc(name).get()
     const tokenid = gettoken.data().apiToken
     spotify.setAccessToken(tokenid)
     await spotify.getMe()
@@ -645,12 +646,7 @@ export default {
       })
     this.$store.commit('SET_DISPLAY', displayname)
     this.$store.commit('SET_USERID', id)
-    const name = this.route // this is the sessionid found in the URL
-    const snapshot = await
-    fireDb
-      .collection('sessions')
-      .doc(name)
-      .get() // used to check if playlistid is already set
+    const snapshot = await fireDb.collection('sessions').doc(name).get() // used to check if playlistid is already set
     const holder = []
     holder.push(snapshot.data().playlistid)
     let flag = true // will be used later to see if playlist already exists
@@ -670,10 +666,13 @@ export default {
       console.log(name)
       await spotify.createPlaylist(username, this.data, async function (err, data) {
         if (err) { console.error(err) } else {
+          console.log('name')
+          console.log(name)
           await fireDb
             .collection('sessions')
             .doc(name)
             .update({ playlistid: data.id })
+          console.log('made it')
         }
       })
     }

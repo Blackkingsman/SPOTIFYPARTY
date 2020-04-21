@@ -22,7 +22,16 @@
               </h5>
               <img v-if="column=== 'Album Cover'" class="rounded-corners" :src="item['Album Cover'].valueOf()" style="width:75px;height:75px;">
               <b-button v-if="item['User'].valueOf() === GET_DISPLAY && column ==='Controls'" variant="danger" @click="removeElement (index)">
-                Remove
+                <svg
+                  class="bi bi-trash-fill"
+                  width="1em"
+                  height="1em"
+                  viewBox="0 0 16 16"
+                  fill="black"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path fill-rule="evenodd" d="M2.5 1a1 1 0 00-1 1v1a1 1 0 001 1H3v9a2 2 0 002 2h6a2 2 0 002-2V4h.5a1 1 0 001-1V2a1 1 0 00-1-1H10a1 1 0 00-1-1H7a1 1 0 00-1 1H2.5zm3 4a.5.5 0 01.5.5v7a.5.5 0 01-1 0v-7a.5.5 0 01.5-.5zM8 5a.5.5 0 01.5.5v7a.5.5 0 01-1 0v-7A.5.5 0 018 5zm3 .5a.5.5 0 00-1 0v7a.5.5 0 001 0v-7z" clip-rule="evenodd" />
+                </svg>
               </b-button>
             </td>
           </tr>
@@ -112,18 +121,10 @@ export default {
         } else {
           console.log('Playlist defined processing... Delete')
         }
-        const snapshot = await
-        fireDb
-          .collection('sessions')
-          .doc(this.$route.params.id)
-          .get()
+        const snapshot = await fireDb.collection('sessions').doc(this.$route.params.id).get()
         playlistholder.push(snapshot.data())
-        console.log(playlistholder[0].playlist)
-        const newArray = playlistholder[0].playlist.splice()
         let removeuri = ''
         let removeindex = -1
-        console.log('new Array')
-        console.log(newArray)
         const userid = this.$store.getters.GET_DISPLAY
         for (let i = 0; i < playlistholder[0].playlist.length; i++) {
           if (playlistholder[0].playlist[i].uid === userid && i === index) {
@@ -147,7 +148,6 @@ export default {
             for (let i = 0; i < playlistholder[0].playlist.length; i++) {
               oplaylist.push(playlistholder[0].playlist[i])
             }
-            console.log(oplaylist)
             try {
               await fireDb.collection('sessions').doc(name).update({ playlist: oplaylist })
             } catch (e) {
